@@ -5,7 +5,8 @@
     "title": "Bienvenue à Wassla",
     "subtitle": "Nous aidons les personnes LGBT du monde arabe vivant en France",
     "browseEvents": "Voir les événements",
-    "donate": "Faire un don"
+    "donate": "Faire un don",
+    "loading": "Chargement en cours..."
   },
   "signin":{
     "signin": "Se Connecter",
@@ -24,7 +25,11 @@
   "blog":{
     "title":"Du blog",
     "seeAll":"Voir tous les articles",
-    "readMore":"En savoir plus"
+    "readMore":"En savoir plus",
+    "noPosts": "Aucun article trouvé",
+    "by":"Par",
+    "notFound": "Article introuvable.",
+    "back": "Retour au blog"
   },
   "volunteer":{
     "title": "Devenez bénévole",

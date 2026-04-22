@@ -11,7 +11,7 @@ export default function LandingPage() {
   useEffect(() => {
     eventsAPI.getAll({ limit: 3 }).then(r => setUpcomingEvents(r.data.data ?? r.data));
     blogAPI.getAll({ limit: 3 })  .then(r => setLatestPosts(r.data.data ?? r.data));
-  }, []);
+  }, [t]);
 
   return (
     <div className="page landing">

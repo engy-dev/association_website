@@ -5,7 +5,8 @@
     "title": "Welcome to Wassla",
     "subtitle": "We help LGBT people from the Arab region living in France",
     "browseEvents": "Browse Events",
-    "donate": "Donate"
+    "donate": "Donate",
+    "loading": "Loading..."
   },
   "signin":{
     "signin": "Sign in",
@@ -25,7 +26,11 @@
   "blog":{
     "title":"From the Blog",
     "seeAll":"See all posts",
-    "readMore":"Read More"
+    "readMore":"Read More",
+    "noPosts": "No posts found.",
+    "by":"By",
+    "notFound": "Post not found.",
+    "back": "Back to Blog"
   },
   "volunteer":{
     "title": "Become A Volunteer",

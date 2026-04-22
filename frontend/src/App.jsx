@@ -20,7 +20,7 @@ import AccountPage from './pages/AccountPage';
 // Protects routes that require authentication
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="loading">Loading…</div>;
+  if (loading) return <div className="loading">{t('hero.loading')}</div>;
   return user ? children : <Navigate to="/signin" replace />;
 }
 
@@ -38,29 +38,29 @@ export default function App() {
   return (
     <AuthProvider>
       <LanguageProvider>
-        <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/"                        element={<LandingPage />} />
-              <Route path="/contact"                 element={<ContactPage />} />
-              <Route path="/events"                  element={<EventsPage />} />
-              <Route path="/events/:id"              element={<EventDetailPage />} />
-              <Route path="/events/:id/checkout"     element={
-                <PrivateRoute><CheckoutPage /></PrivateRoute>
-              } />
-              <Route path="/productions"             element={<ProductionsPage />} />
-              <Route path="/blog"                    element={<BlogPage />} />
-              <Route path="/blog/:id"                element={<BlogPostPage />} />
-              <Route path="/signup"                  element={<SignUpPage />} />
-              <Route path="/signin"                  element={<SignInPage />} />
-              <Route path="/donate"                  element={<DonationPage />} />
-              <Route path="/account"                 element={
-                <PrivateRoute><AccountPage /></PrivateRoute>
-              } />
-              <Route path="*"                        element={<Navigate to="/" replace />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/"                        element={<LandingPage />} />
+            <Route path="/contact"                 element={<ContactPage />} />
+            <Route path="/events"                  element={<EventsPage />} />
+            <Route path="/events/:id"              element={<EventDetailPage />} />
+            <Route path="/events/:id/checkout"     element={
+              <PrivateRoute><CheckoutPage /></PrivateRoute>
+            } />
+            <Route path="/productions"             element={<ProductionsPage />} />
+            <Route path="/blog"                    element={<BlogPage />} />
+            <Route path="/blog/:id"                element={<BlogPostPage />} />
+            <Route path="/signup"                  element={<SignUpPage />} />
+            <Route path="/signin"                  element={<SignInPage />} />
+            <Route path="/donate"                  element={<DonationPage />} />
+            <Route path="/account"                 element={
+              <PrivateRoute><AccountPage /></PrivateRoute>
+            } />
+            <Route path="*"                        element={<Navigate to="/" replace />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
       </LanguageProvider>
     </AuthProvider>
   );

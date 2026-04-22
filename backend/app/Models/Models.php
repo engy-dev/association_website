@@ -74,8 +74,12 @@ class BlogPost extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'title',
-        'content',
+        'title_fr',
+        'title_en',
+        'title_ar',
+        'content_fr',
+        'content_en',
+        'content_ar',
         'author_name',
         'status',
         'published_at',
