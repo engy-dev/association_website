@@ -1,0 +1,44 @@
+
+{
+  "nav": { "events": "Événements", "blog": "Blog", "donate": "Faire un don", "contact": "Contact", "home": "Accueil" , "productions": "Productions"},
+  "hero": {
+    "title": "Bienvenue à Wassla",
+    "subtitle": "Nous aidons les personnes LGBT du monde arabe vivant en France",
+    "browseEvents": "Voir les événements",
+    "donate": "Faire un don"
+  },
+  "signin":{
+    "signin": "Se Connecter",
+    "signout": "Se Déconnecter",
+    "signup": "S'inscrire"
+  },
+  "about": {
+    "title": "À propos",
+    "content": "Nous avons commencé en 2021 suite à l'arrestation et au suicide de Sarah Hegazy, une militante égyptienne. Plus d'informations sur son histoire.",
+    "learnMore": "En savoir plus →" },
+  "events":{
+    "title": "Événements à venir",
+    "seeAll":"Tout Afficher",
+    "details": "Voir les détails"
+  },
+  "blog":{
+    "title":"Du blog",
+    "seeAll":"Voir tous les articles",
+    "readMore":"En savoir plus"
+  },
+  "volunteer":{
+    "title": "Devenez bénévole",
+    "content": "Envie de vous impliquer davantage ? Découvrez en quoi consiste le bénévolat et inscrivez-vous dès aujourd’hui.",
+    "button": "Rejoignez-nous en tant que bénévole"
+  },
+  "footer":{
+    "quickLinksTitle":"Liens rapides",
+    "aboutUsTitle": "À propos de Wassla",
+    "missionStatement": "Brève présentation de notre mission ici",
+    "newsletterTitle": "Bulletin",
+    "newsletterButton": "Abonnez-vous",
+    "newsletterSuccess": "Abonné !",
+    "newsletterError": "Une erreur s'est produite.",
+    "rights":" Wassla. Tous droits réservés."
+  }
+}

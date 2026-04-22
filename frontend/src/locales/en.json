@@ -1,0 +1,45 @@
+
+{
+  "nav": { "events": "Events", "blog": "Blog", "donate": "Donate", "contact": "Contact", "home": "Home", "productions": "Productions" },
+  "hero": {
+    "title": "Welcome to Wassla",
+    "subtitle": "We help LGBT people from the Arab region living in France",
+    "browseEvents": "Browse Events",
+    "donate": "Donate"
+  },
+  "signin":{
+    "signin": "Sign in",
+    "signout": "Sign Out",
+    "signup": "Sign Up"
+  },
+  "about": { 
+    "title": "About Us",
+    "content": "We started in 2021 following Sarah Hegazy, an Egyptian activist's detainement and following suicide, more about the history",
+    "learnMore": "Learn more →"
+  },
+  "events":{
+    "title": "Upcoming Events",
+    "seeAll":"See All",
+    "details": "View Details"
+  },
+  "blog":{
+    "title":"From the Blog",
+    "seeAll":"See all posts",
+    "readMore":"Read More"
+  },
+  "volunteer":{
+    "title": "Become A Volunteer",
+    "content": "Want to get more involved? Learn what volunteering entails and sign up today.",
+    "button": "Volunteer with us"
+  },
+  "footer":{
+    "quickLinksTitle":"Quick Links",
+    "aboutUsTitle": "About Wassla",
+    "missionStatement": "Short mission statement here",
+    "newsletterTitle": "Newsletter",
+    "newsletterButton": "Subscribe",
+    "newsletterSuccess": "Subscribed !",
+    "newsletterError": "Something went wrong.",
+    "rights":" Wassla. All rights reserved."
+  }
+}

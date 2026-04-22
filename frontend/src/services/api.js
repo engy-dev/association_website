@@ -9,6 +9,13 @@ const api = axios.create({
   },
 });
 
+// inject current language to every request
+api.interceptors.request.use((config) => {
+  const lang = localStorage.getItem('lang') || 'fr';
+  config.headers['Accept-Language'] = lang;  // e.g. "fr", "en", "ar"
+  return config;
+});
+
 // ─── Auth ────────────────────────────────────────────────────────────────────
 export const authAPI = {
   register: (data)     => api.post('/register', data),

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-
+import { LanguageProvider } from './context/LanguageContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -37,29 +37,31 @@ function Layout({ children }) {
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/"                        element={<LandingPage />} />
-            <Route path="/contact"                 element={<ContactPage />} />
-            <Route path="/events"                  element={<EventsPage />} />
-            <Route path="/events/:id"              element={<EventDetailPage />} />
-            <Route path="/events/:id/checkout"     element={
-              <PrivateRoute><CheckoutPage /></PrivateRoute>
-            } />
-            <Route path="/productions"             element={<ProductionsPage />} />
-            <Route path="/blog"                    element={<BlogPage />} />
-            <Route path="/blog/:id"                element={<BlogPostPage />} />
-            <Route path="/signup"                  element={<SignUpPage />} />
-            <Route path="/signin"                  element={<SignInPage />} />
-            <Route path="/donate"                  element={<DonationPage />} />
-            <Route path="/account"                 element={
-              <PrivateRoute><AccountPage /></PrivateRoute>
-            } />
-            <Route path="*"                        element={<Navigate to="/" replace />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
+      <LanguageProvider>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/"                        element={<LandingPage />} />
+              <Route path="/contact"                 element={<ContactPage />} />
+              <Route path="/events"                  element={<EventsPage />} />
+              <Route path="/events/:id"              element={<EventDetailPage />} />
+              <Route path="/events/:id/checkout"     element={
+                <PrivateRoute><CheckoutPage /></PrivateRoute>
+              } />
+              <Route path="/productions"             element={<ProductionsPage />} />
+              <Route path="/blog"                    element={<BlogPage />} />
+              <Route path="/blog/:id"                element={<BlogPostPage />} />
+              <Route path="/signup"                  element={<SignUpPage />} />
+              <Route path="/signin"                  element={<SignInPage />} />
+              <Route path="/donate"                  element={<DonationPage />} />
+              <Route path="/account"                 element={
+                <PrivateRoute><AccountPage /></PrivateRoute>
+              } />
+              <Route path="*"                        element={<Navigate to="/" replace />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </LanguageProvider>
     </AuthProvider>
   );
 }
