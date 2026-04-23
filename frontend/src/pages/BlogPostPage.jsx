@@ -15,7 +15,7 @@ export default function BlogPostPage() {
       .finally(() => setLoading(false));
   }, [id, t]);
 
-  if (loading) return <p>{t('nav.loading')}</p>;
+  if (loading) return <p>{t('hero.loading')}</p>;
   if (!post)   return <p>{t('blog.notFound')}</p>;
 
   return (

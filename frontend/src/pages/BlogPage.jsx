@@ -28,7 +28,7 @@ export default function BlogPage() {
       />
 
       {loading ? (
-        <p>{t('nav.loading')}</p>
+        <p>{t('hero.loading')}</p>
       ) : posts.length === 0 ? (
         <p>{t('blog.noPosts')}</p>
       ) : (

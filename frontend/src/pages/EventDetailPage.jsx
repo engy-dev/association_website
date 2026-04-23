@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { eventsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function EventDetailPage() {
   const { id }       = useParams();
@@ -9,6 +10,7 @@ export default function EventDetailPage() {
   const navigate     = useNavigate();
   const [event, setEvent]   = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     eventsAPI.getById(id)
@@ -16,8 +18,8 @@ export default function EventDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <p>Loading…</p>;
-  if (!event)  return <p>Event not found.</p>;
+  if (loading) return <p>{t('hero.loading')}</p>;
+  if (!event)  return <p>{t('event.noEvent')}</p>;
 
   const handleReserve = () => {
     if (!user) {
@@ -38,8 +40,8 @@ export default function EventDetailPage() {
         <p>📅 {new Date(event.start_date).toLocaleString()}</p>
         {event.end_date && <p>   → {new Date(event.end_date).toLocaleString()}</p>}
         <p>📍 {event.location}</p>
-        <p>💶 {event.price > 0 ? `€${event.price}` : 'Free'}</p>
-        {event.capacity && <p>🪑 {event.spots_left} spots remaining</p>}
+        <p>💶 {event.price > 0 ? `€${event.price}` : t('event.free')}</p>
+        {event.capacity && <p>🪑 {event.spots_left} {t('event.remainingSpots')}</p>}
       </div>
 
       <div className="event-description">
@@ -48,14 +50,14 @@ export default function EventDetailPage() {
       </div>
 
       {event.is_recurring && (
-        <p className="recurring-notice">🔁 This is a recurring event.</p>
+        <p className="recurring-notice">🔁 {t('event.recurring')}</p>
       )}
 
       <div className="event-actions">
         <button onClick={handleReserve} className="btn-primary" disabled={event.spots_left === 0}>
-          {event.spots_left === 0 ? 'Fully booked' : 'Reserve a spot'}
+          {event.spots_left === 0 ? t('event.full') : t('event.notFull')}
         </button>
-        <Link to="/events">← Back to events</Link>
+        <Link to="/events">← {t('event.back')}</Link>
       </div>
     </div>
   );

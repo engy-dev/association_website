@@ -1,27 +1,29 @@
 import { useEffect, useState } from 'react';
 import { productionsAPI } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ProductionsPage() {
   const [productions, setProductions] = useState([]);
   const [loading,     setLoading]     = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     productionsAPI.getAll()
       .then(r => setProductions(r.data.data ?? r.data))
       .finally(() => setLoading(false));
-  }, []);
+  }, [t]);
 
   return (
     <div className="page productions">
-      <h1>Our Productions</h1>
+      <h1>{t('productions.title')}</h1>
       <p className="page-intro">
-        Discover the shows, exhibitions, and creative projects our association has produced.
+        {t('productions.subtitle')}
       </p>
 
       {loading ? (
-        <p>Loading…</p>
+        <p>{t('hero.loading')}</p>
       ) : productions.length === 0 ? (
-        <p>No productions yet — check back soon!</p>
+        <p>{t('productions.noProductions')}</p>
       ) : (
         <div className="card-grid">
           {productions.map(prod => (
@@ -33,7 +35,7 @@ export default function ProductionsPage() {
                 <p>{prod.description}</p>
                 {prod.video_url && (
                   <a href={prod.video_url} target="_blank" rel="noopener noreferrer">
-                    ▶ Watch
+                    ▶ {t('productions.watch')}
                   </a>
                 )}
               </div>

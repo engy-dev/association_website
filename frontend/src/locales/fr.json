@@ -20,7 +20,37 @@
   "events":{
     "title": "Événements à venir",
     "seeAll":"Tout Afficher",
-    "details": "Voir les détails"
+    "details": "Voir les détails",
+    "calendarTitle":"Calendrier des événements",
+    "searchPlaceholder":"Rechercher des événements…",
+    "dateTo":"Au",
+    "dateFrom":"De",
+    "noEvents":"Aucun événement ne correspond à vos critères.",
+    "reset":"Réinitialiser",
+    "view": "Voir et réserver",
+    "noEvent":"Événement introuvable",
+    "recurring":"Il s'agit d'un événement récurrent.",
+    "back":"Retour aux événements",
+    "remainingSpots":"Places restantes",
+    "full":"Complet",
+    "notFull": "Réservez votre place",
+    "free":"Gratuit"
+  }, 
+  "contact":{
+    "title": "Nous contacter",
+    "addressTitle":"Adresse",
+    "addressLine1":"22 Rue Malher,",
+    "addressLine2":"75004 Paris, France",
+    "email":"Courriel",
+    "phone":"Téléphone",
+    "hours":"Horaires",
+    "messageTitle":"Envoyez-nous un message",
+    "messageSuccess": "Message envoyé ! Nous vous recontacterons.",
+    "messageError": "Une erreur s'est produite. Veuillez réessayer.",
+    "messageName":"Nom",
+    "messageSubject":"Objet",
+    "messageContent":"Message",
+    "messageSend":"Envoyer"
   },
   "blog":{
     "title":"Du blog",
@@ -35,6 +65,12 @@
     "title": "Devenez bénévole",
     "content": "Envie de vous impliquer davantage ? Découvrez en quoi consiste le bénévolat et inscrivez-vous dès aujourd’hui.",
     "button": "Rejoignez-nous en tant que bénévole"
+  },
+  "productions":{
+    "title": "Nos Productions",
+    "subtitle": "Découvrez les spectacles, expositions et projets créatifs produits par notre association.",
+    "noProductions": "Aucune production pour le moment — revenez bientôt !",
+    "watch":"Regarder"
   },
   "footer":{
     "quickLinksTitle":"Liens rapides",

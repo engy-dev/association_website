@@ -21,7 +21,37 @@
   "events":{
     "title": "Upcoming Events",
     "seeAll":"See All",
-    "details": "View Details"
+    "details": "View Details",
+    "calendarTitle":"Events Calendar",
+    "searchPlaceholder":"Search events…",
+    "dateTo":"To",
+    "dateFrom":"From",
+    "noEvents":"No events found matching your filters.",
+    "reset":"Reset",
+    "view": "View & Reserve",
+    "noEvent":"Event not found.",
+    "recurring":"This is a recurring event",
+    "back":"Back to Events",
+    "remainingSpots":"spots remaining",
+    "full":"Fully booked",
+    "notFull": "Reserve a spot",
+    "free":"Free"
+  },
+  "contact":{
+    "title": "Contact Us",
+    "addressTitle":"Address",
+    "addressLine1":"22 Rue Malher,",
+    "addressLine2":"75004 Paris, France",
+    "email":"Email",
+    "phone":"Phone",
+    "hours":"Hours",
+    "messageTitle":"Send us a message",
+    "messageSuccess": "Message sent! We'll be in touch.",
+    "messageError": "Something went wrong. Please try again.",
+    "messageName":"Name",
+    "messageSubject":"Subject",
+    "messageContent":"Message",
+    "messageSend":"Send"
   },
   "blog":{
     "title":"From the Blog",
@@ -36,6 +66,12 @@
     "title": "Become A Volunteer",
     "content": "Want to get more involved? Learn what volunteering entails and sign up today.",
     "button": "Volunteer with us"
+  },
+  "productions":{
+    "title": "Our Productions",
+    "subtitle": "Discover the shows, exhibitions, and creative projects our association has produced.",
+    "noProductions": "No productions yet — check back soon!",
+    "watch":"Watch"
   },
   "footer":{
     "quickLinksTitle":"Quick Links",
