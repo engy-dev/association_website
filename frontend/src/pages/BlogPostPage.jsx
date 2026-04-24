@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { blogAPI } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function BlogPostPage() {
   const { id }              = useParams();
   const [post,    setPost]  = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     blogAPI.getById(id)
       .then(r => setPost(r.data))
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, t]);
 
-  if (loading) return <p>Loading…</p>;
-  if (!post)   return <p>Post not found.</p>;
+  if (loading) return <p>{t('hero.loading')}</p>;
+  if (!post)   return <p>{t('blog.notFound')}</p>;
 
   return (
     <div className="page blog-post">
@@ -22,19 +24,15 @@ export default function BlogPostPage() {
 
       <h1>{post.title}</h1>
       <p className="blog-meta">
-        By {post.author_name} · {new Date(post.published_at).toLocaleDateString()}
+        {t('blog.by')} {post.author_name} · {new Date(post.published_at).toLocaleDateString()}
       </p>
 
-      {/* Render rich-text HTML from the CMS/editor safely.
-          Install DOMPurify: npm i dompurify, then:
-          import DOMPurify from 'dompurify';
-          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.body) }} />
-      */}
+      
       <div className="blog-body">
         <p>{post.content}</p>
       </div>
 
-      <Link to="/blog">← Back to Blog</Link>
+      <Link to="/blog">← {t('blog.back')}</Link>
     </div>
   );
 }

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function SignUpPage() {
   const { register }     = useAuth();
   const navigate         = useNavigate();
   const [searchParams]   = useSearchParams();
+  const { t } = useLanguage();
 
   const [form, setForm]   = useState({
     name:                 '',
@@ -31,7 +33,7 @@ export default function SignUpPage() {
       await register(form);
       navigate(searchParams.get('redirect') || '/account');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed.');
+      setError(err.response?.data?.message || t('signup.error'));
     } finally {
       setSubmitting(false);
     }
@@ -39,51 +41,51 @@ export default function SignUpPage() {
 
   return (
     <div className="page auth-page">
-      <h1>Create an account</h1>
+      <h1>{t('signup.create')}</h1>
 
       <form onSubmit={handleSubmit} className="auth-form">
 
         <label>
-          Full name
+          {t('signup.name')}
           <input name="name"  type="text"  value={form.name}  onChange={handleChange} required />
         </label>
 
         <label>
-          Email
+          {t('signup.email')}
           <input name="email" type="email" value={form.email} onChange={handleChange} required />
         </label>
 
         <label>
-          Password
+          {t('signup.password')}
           <input name="password" type="password" value={form.password} onChange={handleChange} required minLength={8} />
         </label>
 
         <label>
-          Confirm password
+          {t('signup.confirmPassword')}
           <input name="password_confirmation" type="password" value={form.password_confirmation} onChange={handleChange} required />
         </label>
 
         <label>
-          I want to
+          {t('signup.memberCategoryDropbox')}
           <select name="role" value={form.role} onChange={handleChange}>
-            <option value="member">Become a member</option>
-            <option value="volunteer">Volunteer</option>
+            <option value="member">{t('signup.memberCategory1')}</option>
+            <option value="volunteer">{t('signup.memberCategory2')}</option>
           </select>
         </label>
 
         <label className="checkbox-label">
           <input name="newsletter" type="checkbox" checked={form.newsletter} onChange={handleChange} />
-          Subscribe to our newsletter
+          {t('signup.newsletter')}
         </label>
 
         {error && <p className="error">{error}</p>}
 
         <button type="submit" className="btn-primary" disabled={submitting}>
-          {submitting ? 'Creating account…' : 'Sign Up'}
+          {submitting ? t('signup.creating') : t('signin.signup')}
         </button>
       </form>
 
-      <p>Already have an account? <Link to="/signin">Sign in</Link></p>
+      <p>{t('signup.already')} <Link to="/signin">{t('signin.signin')}</Link></p>
     </div>
   );
 }

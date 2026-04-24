@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { contactAPI, newsletterAPI, volunteerAPI } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState(null);
+  const { t } = useLanguage();
 
   const handleChange = e =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -21,24 +23,24 @@ export default function ContactPage() {
 
   return (
     <div className="page contact">
-      <h1>Contact Us</h1>
+      <h1>{t('contact.title')}</h1>
 
       {/* ── Contact Info ────────────────────────────────────── */}
       <div className="contact-info">
         <div>
-          <h2>Address</h2>
-          <p>123 Rue de la Culture<br />75000 Paris, France</p>
+          <h2>{t('contact.addressTitle')}</h2>
+          <p>{t('contact.addressLine1')}<br />{t('contact.addressLine2')}</p>
         </div>
         <div>
-          <h2>Email</h2>
+          <h2>{t('contact.email')}</h2>
           <p><a href="mailto:contact@association.fr">contact@association.fr</a></p>
         </div>
         <div>
-          <h2>Phone</h2>
+          <h2>{t('contact.phone')}</h2>
           <p>+33 1 23 45 67 89</p>
         </div>
         <div>
-          <h2>Hours</h2>
+          <h2>{t('contact.hours')}</h2>
           <p>Mon–Fri 9h–17h</p>
         </div>
       </div>
@@ -51,19 +53,19 @@ export default function ContactPage() {
 
       {/* ── Contact Form ────────────────────────────────────── */}
       <section>
-        <h2>Send us a message</h2>
-        {status === 'success' && <p className="success">Message sent! We'll be in touch.</p>}
-        {status === 'error'   && <p className="error">Something went wrong. Please try again.</p>}
+        <h2>{t('contact.messageTitle')}</h2>
+        {status === 'success' && <p className="success">{t('contact.messageSuccess')}</p>}
+        {status === 'error'   && <p className="error">{t('contact.messageError')}</p>}
 
         <form onSubmit={handleSubmit} className="contact-form">
-          <label>Name     <input name="name"    type="text"  value={form.name}    onChange={handleChange} required /></label>
-          <label>Email    <input name="email"   type="email" value={form.email}   onChange={handleChange} required /></label>
-          <label>Subject  <input name="subject" type="text"  value={form.subject} onChange={handleChange} /></label>
+          <label>{t('contact.messageName')}     <input name="name"    type="text"  value={form.name}    onChange={handleChange} required /></label>
+          <label>{t('contact.email')}    <input name="email"   type="email" value={form.email}   onChange={handleChange} required /></label>
+          <label>{t('contact.messageSubject')}  <input name="subject" type="text"  value={form.subject} onChange={handleChange} /></label>
           <label>
-            Message
+            {t('contact.messageContent')}
             <textarea name="message" rows={5} value={form.message} onChange={handleChange} required />
           </label>
-          <button type="submit" className="btn-primary">Send</button>
+          <button type="submit" className="btn-primary">{t('contact.messageSend')}</button>
         </form>
       </section>
     </div>

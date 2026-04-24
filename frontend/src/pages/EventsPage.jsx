@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { eventsAPI } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 const CATEGORIES = ['All', 'Concert', 'Workshop', 'Exhibition', 'Community', 'Other'];
 
@@ -8,6 +9,7 @@ export default function EventsPage() {
   const [events,       setEvents]       = useState([]);
   const [loading,      setLoading]      = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useLanguage();
 
   // Filter state — initialise from URL query params
   const [filters, setFilters] = useState({
@@ -28,20 +30,20 @@ export default function EventsPage() {
 
     // Sync filters → URL
     setSearchParams(params);
-  }, [filters]);
+  }, [filters, t]);
 
   const handleFilter = (key, value) =>
     setFilters(prev => ({ ...prev, [key]: value }));
 
   return (
     <div className="page events">
-      <h1>Events Calendar</h1>
+      <h1>{t('events.calendarTitle')}</h1>
 
       {/* ── Filter Bar ────────────────────────────────────────── */}
       <div className="filter-bar">
         <input
           type="text"
-          placeholder="Search events…"
+          placeholder={t('events.searchPlaceholder')}
           value={filters.search}
           onChange={e => handleFilter('search', e.target.value)}
         />
@@ -54,7 +56,7 @@ export default function EventsPage() {
         </select>
 
         <label>
-          From
+          {t('events.dateFrom')}
           <input
             type="date"
             value={filters.date_from}
@@ -63,7 +65,7 @@ export default function EventsPage() {
         </label>
 
         <label>
-          To
+          {t('events.dateTo')}
           <input
             type="date"
             value={filters.date_to}
@@ -72,15 +74,15 @@ export default function EventsPage() {
         </label>
 
         <button onClick={() => setFilters({ category: '', date_from: '', date_to: '', search: '' })}>
-          Reset
+          {t('events.reset')}
         </button>
       </div>
 
       {/* ── Event List ────────────────────────────────────────── */}
       {loading ? (
-        <p>Loading…</p>
+        <p>{t('hero.loading')}</p>
       ) : events.length === 0 ? (
-        <p>No events found matching your filters.</p>
+        <p>{t('events.noEvents')}</p>
       ) : (
         <div className="card-grid">
           {events.map(event => (
@@ -96,7 +98,7 @@ export default function EventsPage() {
                 <p>💶 {event.price > 0 ? `€${event.price}` : 'Free'}</p>
                 <p>{event.excerpt}</p>
                 <Link to={`/events/${event.id}`} className="btn-primary">
-                  View & Reserve
+                  {t('events.view')}
                 </Link>
               </div>
             </div>

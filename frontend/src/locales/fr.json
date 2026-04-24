@@ -1,0 +1,103 @@
+
+{
+  "nav": { "events": "Événements", "blog": "Blog", "donate": "Faire un don", "contact": "Contact", "home": "Accueil" , "productions": "Productions"},
+  "hero": {
+    "title": "Bienvenue à Wassla",
+    "subtitle": "Nous aidons les personnes LGBT du monde arabe vivant en France",
+    "browseEvents": "Voir les événements",
+    "donate": "Faire un don",
+    "loading": "Chargement en cours..."
+  },
+  "signin":{
+    "signin": "Se connecter",
+    "signout": "Se déconnecter",
+    "signup": "S'inscrire",
+    "forgot":"Mot de passe oublié ?",
+    "signingin":"Connexion en cours…",
+    "noAccount":"Pas encore de compte ?",
+    "error":"Identifiants invalides."
+  },
+  "signup":{
+    "create": "Créer un compte",
+    "name": "Nom complet",
+    "email":"Adresse e-mail",
+    "password":"Mot de passe",
+    "confirmPassword":"Confirmer le mot de passe",
+    "memberCategoryDropbox":"Je souhaite",
+    "memberCategory1":"Devenir membre",
+    "memberCategory2":"Devenir bénévole",
+    "newsletter":"S'abonner à notre newsletter",
+    "creating":"Création du compte…",
+    "already":"Vous avez déjà un compte ?",
+    "error":"Échec de l'inscription."
+  },
+  "about": {
+    "title": "À propos",
+    "content": "Nous avons commencé en 2021 suite à l'arrestation et au suicide de Sarah Hegazy, une militante égyptienne. Plus d'informations sur son histoire.",
+    "learnMore": "En savoir plus →" },
+  "events":{
+    "title": "Événements à venir",
+    "seeAll":"Tout Afficher",
+    "details": "Voir les détails",
+    "calendarTitle":"Calendrier des événements",
+    "searchPlaceholder":"Rechercher des événements…",
+    "dateTo":"Au",
+    "dateFrom":"De",
+    "noEvents":"Aucun événement ne correspond à vos critères.",
+    "reset":"Réinitialiser",
+    "view": "Voir et réserver",
+    "noEvent":"Événement introuvable",
+    "recurring":"Il s'agit d'un événement récurrent.",
+    "back":"Retour aux événements",
+    "remainingSpots":"Places restantes",
+    "full":"Complet",
+    "notFull": "Réservez votre place",
+    "free":"Gratuit"
+  }, 
+  "contact":{
+    "title": "Nous contacter",
+    "addressTitle":"Adresse",
+    "addressLine1":"22 Rue Malher,",
+    "addressLine2":"75004 Paris, France",
+    "email":"Courriel",
+    "phone":"Téléphone",
+    "hours":"Horaires",
+    "messageTitle":"Envoyez-nous un message",
+    "messageSuccess": "Message envoyé ! Nous vous recontacterons.",
+    "messageError": "Une erreur s'est produite. Veuillez réessayer.",
+    "messageName":"Nom",
+    "messageSubject":"Objet",
+    "messageContent":"Message",
+    "messageSend":"Envoyer"
+  },
+  "blog":{
+    "title":"Du blog",
+    "seeAll":"Voir tous les articles",
+    "readMore":"En savoir plus",
+    "noPosts": "Aucun article trouvé",
+    "by":"Par",
+    "notFound": "Article introuvable.",
+    "back": "Retour au blog"
+  },
+  "volunteer":{
+    "title": "Devenez bénévole",
+    "content": "Envie de vous impliquer davantage ? Découvrez en quoi consiste le bénévolat et inscrivez-vous dès aujourd’hui.",
+    "button": "Rejoignez-nous en tant que bénévole"
+  },
+  "productions":{
+    "title": "Nos Productions",
+    "subtitle": "Découvrez les spectacles, expositions et projets créatifs produits par notre association.",
+    "noProductions": "Aucune production pour le moment — revenez bientôt !",
+    "watch":"Regarder"
+  },
+  "footer":{
+    "quickLinksTitle":"Liens rapides",
+    "aboutUsTitle": "À propos de Wassla",
+    "missionStatement": "Brève présentation de notre mission ici",
+    "newsletterTitle": "Bulletin",
+    "newsletterButton": "Abonnez-vous",
+    "newsletterSuccess": "Abonné !",
+    "newsletterError": "Une erreur s'est produite.",
+    "rights":" Wassla. Tous droits réservés."
+  }
+}

@@ -1,0 +1,104 @@
+
+{
+  "nav": { "events": "Events", "blog": "Blog", "donate": "Donate", "contact": "Contact", "home": "Home", "productions": "Productions" },
+  "hero": {
+    "title": "Welcome to Wassla",
+    "subtitle": "We help LGBT people from the Arab region living in France",
+    "browseEvents": "Browse Events",
+    "donate": "Donate",
+    "loading": "Loading..."
+  },
+  "signin":{
+    "signin": "Sign in",
+    "signout": "Sign Out",
+    "signup": "Sign Up",
+    "forgot":"Forgot your password?",
+    "signingin":"Signing in…",
+    "noAccount":"No account yet?",
+    "error":"Invalid credentials."
+  },
+  "signup":{
+    "create": "Create an account",
+    "name": "Full Name",
+    "email":"Email",
+    "password":"Password",
+    "confirmPassword":"Confirm Password",
+    "memberCategoryDropbox":"I want to",
+    "memberCategory1":"Become a member",
+    "memberCategory2":"Become a volunteer",
+    "newsletter":"Subscribe to our newsletter",
+    "creating":"Creating an account...",
+    "already":"Already have an account?",
+    "error":"Registration failed."
+  },
+  "about": { 
+    "title": "About Us",
+    "content": "We started in 2021 following Sarah Hegazy, an Egyptian activist's detainement and following suicide, more about the history",
+    "learnMore": "Learn more →"
+  },
+  "events":{
+    "title": "Upcoming Events",
+    "seeAll":"See All",
+    "details": "View Details",
+    "calendarTitle":"Events Calendar",
+    "searchPlaceholder":"Search events…",
+    "dateTo":"To",
+    "dateFrom":"From",
+    "noEvents":"No events found matching your filters.",
+    "reset":"Reset",
+    "view": "View & Reserve",
+    "noEvent":"Event not found.",
+    "recurring":"This is a recurring event",
+    "back":"Back to Events",
+    "remainingSpots":"spots remaining",
+    "full":"Fully booked",
+    "notFull": "Reserve a spot",
+    "free":"Free"
+  },
+  "contact":{
+    "title": "Contact Us",
+    "addressTitle":"Address",
+    "addressLine1":"22 Rue Malher,",
+    "addressLine2":"75004 Paris, France",
+    "email":"Email",
+    "phone":"Phone",
+    "hours":"Hours",
+    "messageTitle":"Send us a message",
+    "messageSuccess": "Message sent! We'll be in touch.",
+    "messageError": "Something went wrong. Please try again.",
+    "messageName":"Name",
+    "messageSubject":"Subject",
+    "messageContent":"Message",
+    "messageSend":"Send"
+  },
+  "blog":{
+    "title":"From the Blog",
+    "seeAll":"See all posts",
+    "readMore":"Read More",
+    "noPosts": "No posts found.",
+    "by":"By",
+    "notFound": "Post not found.",
+    "back": "Back to Blog"
+  },
+  "volunteer":{
+    "title": "Become A Volunteer",
+    "content": "Want to get more involved? Learn what volunteering entails and sign up today.",
+    "button": "Volunteer with us"
+  },
+  "productions":{
+    "title": "Our Productions",
+    "subtitle": "Discover the shows, exhibitions, and creative projects our association has produced.",
+    "noProductions": "No productions yet — check back soon!",
+    "watch":"Watch"
+  },
+  "footer":{
+    "quickLinksTitle":"Quick Links",
+    "aboutUsTitle": "About Wassla",
+    "missionStatement": "Short mission statement here",
+    "newsletterTitle": "Newsletter",
+    "newsletterButton": "Subscribe",
+    "newsletterSuccess": "Subscribed !",
+    "newsletterError": "Something went wrong.",
+    "rights":" Wassla. All rights reserved."
+  }
+}

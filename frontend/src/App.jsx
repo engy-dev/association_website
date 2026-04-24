@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-
+import { LanguageProvider } from './context/LanguageContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -20,7 +20,7 @@ import AccountPage from './pages/AccountPage';
 // Protects routes that require authentication
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="loading">Loading…</div>;
+  if (loading) return <div className="loading">{t('hero.loading')}</div>;
   return user ? children : <Navigate to="/signin" replace />;
 }
 
@@ -37,6 +37,7 @@ function Layout({ children }) {
 export default function App() {
   return (
     <AuthProvider>
+      <LanguageProvider>
       <BrowserRouter>
         <Layout>
           <Routes>
@@ -60,6 +61,7 @@ export default function App() {
           </Routes>
         </Layout>
       </BrowserRouter>
+      </LanguageProvider>
     </AuthProvider>
   );
 }
