@@ -8,9 +8,27 @@
     "loading": "جارٍ التحميل"
   },
   "signin":{
-    "signin": "سجل الدخول",
-    "signout": "سجل الخروج",
-    "signup": "سجل الآن"
+    "signin": "تسجيل الدخول",
+    "signout": "تسجيل الخروج",
+    "signup": "إنشاء حساب",
+    "forgot": "هل نسيت كلمة المرور؟",
+    "signingin": "جاري تسجيل الدخول…",
+    "noAccount": "ليس لديك حساب بعد؟",
+    "error":"بيانات اعتماد غير صالحة"
+  },
+  "signup":{
+    "create": "إنشاء حساب",
+    "name": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "memberCategoryDropbox": "أرني",
+    "memberCategory1": "أن أصبح عضواً",
+    "memberCategory2": "أن أصبح متطوعاً",
+    "newsletter": "الاشتراك في النشرة البريدية",
+    "creating": "جاري إنشاء الحساب...",
+    "already": "لديك حساب بالفعل؟",
+    "error": "فشل التسجيل."
   },
   "about": {
     "title": "من نحن",

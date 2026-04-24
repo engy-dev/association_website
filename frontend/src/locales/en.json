@@ -11,7 +11,25 @@
   "signin":{
     "signin": "Sign in",
     "signout": "Sign Out",
-    "signup": "Sign Up"
+    "signup": "Sign Up",
+    "forgot":"Forgot your password?",
+    "signingin":"Signing in…",
+    "noAccount":"No account yet?",
+    "error":"Invalid credentials."
+  },
+  "signup":{
+    "create": "Create an account",
+    "name": "Full Name",
+    "email":"Email",
+    "password":"Password",
+    "confirmPassword":"Confirm Password",
+    "memberCategoryDropbox":"I want to",
+    "memberCategory1":"Become a member",
+    "memberCategory2":"Become a volunteer",
+    "newsletter":"Subscribe to our newsletter",
+    "creating":"Creating an account...",
+    "already":"Already have an account?",
+    "error":"Registration failed."
   },
   "about": { 
     "title": "About Us",

@@ -9,9 +9,27 @@
     "loading": "Chargement en cours..."
   },
   "signin":{
-    "signin": "Se Connecter",
-    "signout": "Se Déconnecter",
-    "signup": "S'inscrire"
+    "signin": "Sign in",
+    "signout": "Sign Out",
+    "signup": "Sign Up",
+    "forgot":"Forgot your password?",
+    "signingin":"Signing in…",
+    "noAccount":"No account yet?",
+    "error":"Identifiants invalides."
+  },
+  "signup":{
+    "create": "Create an account",
+    "name": "Full Name",
+    "email":"Email",
+    "password":"Password",
+    "confirmPassword":"Confirm Password",
+    "memberCategoryDropbox":"I want to",
+    "memberCategory1":"Become a member",
+    "memberCategory2":"Become a volunteer",
+    "newsletter":"Subscribe to our newsletter",
+    "creating":"Creating an account...",
+    "already":"Already have an account?",
+    "error":"Registration failed."
   },
   "about": {
     "title": "À propos",

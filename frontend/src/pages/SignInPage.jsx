@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function SignInPage() {
   const { login }        = useAuth();
   const navigate         = useNavigate();
   const [searchParams]   = useSearchParams();
+  const { t } = useLanguage();
 
   const [email,     setEmail]     = useState('');
   const [password,  setPassword]  = useState('');
@@ -20,7 +22,7 @@ export default function SignInPage() {
       await login(email, password);
       navigate(searchParams.get('redirect') || '/account');
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid credentials.');
+      setError(err.response?.data?.message || t('signin.error'));
     } finally {
       setSubmitting(false);
     }
@@ -28,30 +30,30 @@ export default function SignInPage() {
 
   return (
     <div className="page auth-page">
-      <h1>Sign In</h1>
+      <h1>{t('signin.signin')}</h1>
 
       <form onSubmit={handleSubmit} className="auth-form">
         <label>
-          Email
+          {t('signup.email')}
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
         </label>
 
         <label>
-          Password
+          {t('signup.password')}
           <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
         </label>
 
         {/* TODO: add "Forgot password?" flow */}
-        <p><Link to="/forgot-password">Forgot your password?</Link></p>
+        <p><Link to="/forgot-password">{t('signin.forgot')}</Link></p>
 
         {error && <p className="error">{error}</p>}
 
         <button type="submit" className="btn-primary" disabled={submitting}>
-          {submitting ? 'Signing in…' : 'Sign In'}
+          {submitting ? t('signin.signingin') : t('signin.signin')}
         </button>
       </form>
 
-      <p>No account yet? <Link to="/signup">Sign up</Link></p>
+      <p>{t('signin.noAccount')} <Link to="/signup">{t('signin.signup')}</Link></p>
     </div>
   );
 }
