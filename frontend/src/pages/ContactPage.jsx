@@ -45,10 +45,14 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* ── Map placeholder ─────────────────────────────────── */}
-      <div className="map-placeholder">
-        {/* Drop in a Google Maps embed or Leaflet map here */}
-        <p>[ Map embed ]</p>
+      {/* ── Map ─────────────────────────────────────────────── */}
+      <div className="map-placeholder" style={{ height: '400px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=2.3592361807823186%2C48.855799904716584%2C2.363715469837189%2C48.85738817839316&amp;layer=mapnik&amp;marker=48.856594047854024%2C2.3614758253097534"
+          style={{ width: '100%', height: '400px', border: 'none', borderRadius: '8px' }}
+          loading="lazy"
+          allowFullScreen
+        />
       </div>
 
       {/* ── Contact Form ────────────────────────────────────── */}
