@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-require_once app_path('Models/Models.php');
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 

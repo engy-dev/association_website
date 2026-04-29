@@ -67,7 +67,8 @@
     "messageName":"الاسم",
     "messageSubject":"الموضوع",
     "messageContent":"الرسالة",
-    "messageSend":"إرسال"
+    "messageSend":"إرسال",
+    "messageSending": "جاري الإرسال…"
   },
   "blog":{
     "title":"من المدونة",

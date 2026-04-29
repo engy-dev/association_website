@@ -5,24 +5,33 @@ import { useLanguage } from '../context/LanguageContext';
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { t } = useLanguage();
 
   const handleChange = e =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await contactAPI.send(form);
-      setStatus('success');
-      setForm({ name: '', email: '', subject: '', message: '' });
-    } catch {
-      setStatus('error');
-    }
+      e.preventDefault();
+      setLoading(true);
+      try {
+        await contactAPI.send(form);
+        setStatus('success');
+        setForm({ name: '', email: '', subject: '', message: '' });
+      } catch {
+        setStatus('error');
+      } finally {
+        setLoading(false);
+      }
   };
 
   return (
-    <div className="page contact">
+      <div className="page contact">
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner" />
+        </div>
+      )}
       <h1>{t('contact.title')}</h1>
 
       {/* ── Contact Info ────────────────────────────────────── */}
@@ -45,10 +54,14 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* ── Map placeholder ─────────────────────────────────── */}
-      <div className="map-placeholder">
-        {/* Drop in a Google Maps embed or Leaflet map here */}
-        <p>[ Map embed ]</p>
+      {/* ── Map ─────────────────────────────────────────────── */}
+      <div className="map-placeholder" style={{ height: '400px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=2.3592361807823186%2C48.855799904716584%2C2.363715469837189%2C48.85738817839316&amp;layer=mapnik&amp;marker=48.856594047854024%2C2.3614758253097534"
+          style={{ width: '100%', height: '400px', border: 'none', borderRadius: '8px' }}
+          loading="lazy"
+          allowFullScreen
+        />
       </div>
 
       {/* ── Contact Form ────────────────────────────────────── */}
@@ -65,7 +78,9 @@ export default function ContactPage() {
             {t('contact.messageContent')}
             <textarea name="message" rows={5} value={form.message} onChange={handleChange} required />
           </label>
-          <button type="submit" className="btn-primary">{t('contact.messageSend')}</button>
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? t('contact.messageSending') : t('contact.messageSend')}
+          </button>
         </form>
       </section>
     </div>

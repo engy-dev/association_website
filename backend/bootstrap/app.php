@@ -23,6 +23,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // Sanctum stateful middleware for SPA cookie auth
         $middleware->statefulApi();
 
+        $middleware->validateCsrfTokens(except: [
+        'api/*',
+    ]);
+
         // Trust all headers from proxies (needed if behind nginx/Vite proxy)
         $middleware->trustProxies(at: '*');
     })

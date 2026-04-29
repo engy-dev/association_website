@@ -2,35 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContactMessage;
 use App\Models\NewsletterSubscriber;
 use App\Models\VolunteerApplication;
 use Illuminate\Http\Request;
 
-// ─── Contact ─────────────────────────────────────────────────────────────────
-
-class ContactController extends Controller
-{
-    /**
-     * POST /api/contact
-     */
-    public function send(Request $request)
-    {
-        $validated = $request->validate([
-            'name'    => 'required|string|max:255',
-            'email'   => 'required|email',
-            'subject' => 'nullable|string|max:255',
-            'message' => 'required|string',
-        ]);
-
-        ContactMessage::create($validated);
-
-        // TODO: Send notification email to admin
-        // Mail::to(config('mail.admin'))->send(new ContactReceived($validated));
-
-        return response()->json(['message' => 'Message received. Thank you!']);
-    }
-}
 
 // ─── Newsletter ───────────────────────────────────────────────────────────────
 

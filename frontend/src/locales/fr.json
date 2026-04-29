@@ -34,7 +34,8 @@
   "about": {
     "title": "À propos",
     "content": "Nous avons commencé en 2021 suite à l'arrestation et au suicide de Sarah Hegazy, une militante égyptienne. Plus d'informations sur son histoire.",
-    "learnMore": "En savoir plus →" },
+    "learnMore": "En savoir plus →"
+  },
   "events":{
     "title": "Événements à venir",
     "seeAll":"Tout Afficher",
@@ -68,7 +69,8 @@
     "messageName":"Nom",
     "messageSubject":"Objet",
     "messageContent":"Message",
-    "messageSend":"Envoyer"
+    "messageSend":"Envoyer",
+    "messageSending": "Envoi en cours…"
   },
   "blog":{
     "title":"Du blog",
