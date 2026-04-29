@@ -69,7 +69,8 @@
     "messageName":"Name",
     "messageSubject":"Subject",
     "messageContent":"Message",
-    "messageSend":"Send"
+    "messageSend":"Send",
+    "messageSending": "Sending…"
   },
   "blog":{
     "title":"From the Blog",

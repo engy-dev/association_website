@@ -5,24 +5,33 @@ import { useLanguage } from '../context/LanguageContext';
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { t } = useLanguage();
 
   const handleChange = e =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await contactAPI.send(form);
-      setStatus('success');
-      setForm({ name: '', email: '', subject: '', message: '' });
-    } catch {
-      setStatus('error');
-    }
+      e.preventDefault();
+      setLoading(true);
+      try {
+        await contactAPI.send(form);
+        setStatus('success');
+        setForm({ name: '', email: '', subject: '', message: '' });
+      } catch {
+        setStatus('error');
+      } finally {
+        setLoading(false);
+      }
   };
 
   return (
-    <div className="page contact">
+      <div className="page contact">
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner" />
+        </div>
+      )}
       <h1>{t('contact.title')}</h1>
 
       {/* ── Contact Info ────────────────────────────────────── */}
@@ -69,7 +78,9 @@ export default function ContactPage() {
             {t('contact.messageContent')}
             <textarea name="message" rows={5} value={form.message} onChange={handleChange} required />
           </label>
-          <button type="submit" className="btn-primary">{t('contact.messageSend')}</button>
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? t('contact.messageSending') : t('contact.messageSend')}
+          </button>
         </form>
       </section>
     </div>

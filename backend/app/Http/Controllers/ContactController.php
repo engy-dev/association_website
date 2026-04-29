@@ -20,18 +20,24 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
+        $locale = in_array(
+            $request->header('Accept-Language', 'fr'),
+            ['fr', 'en', 'ar']
+        ) ? $request->header('Accept-Language', 'fr') : 'fr';
+
         $message = ContactMessage::create(array_merge($validated, [
-            'subject'    => $validated['subject'] ?? '',
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
-            'locale'     => $request->header('Accept-Language', 'fr'),
+            'locale'     => $locale,
             'status'     => 'received',
         ]));
 
         // Confirmation email to the user
         $autoReplySent = false;
         try {
-            Mail::to($validated['email'])->send(new ContactAutoReply($validated));
+            Mail::to($validated['email'])
+                ->locale($locale)
+                ->send(new ContactAutoReply($validated));
             $autoReplySent = true;
         } catch (\Exception $e) {
             \Log::error('Contact auto-reply failed', [

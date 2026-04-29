@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <body style="font-family: sans-serif; color: #333;">
-    <p>Hello {{ $data['name'] }},</p>
-    <p>Thank you for reaching out. We have received your message and will get back to you as soon as possible.</p>
+    <p>{{ __('emails.auto_reply.greeting', ['name' => $data['name']]) }}</p>
+    <p>{{ __('emails.auto_reply.received') }}</p>
     <hr>
-    <p><strong>Your message:</strong></p>
+    <p><strong>{{ __('emails.auto_reply.your_message') }}</strong></p>
     <p>{{ $data['message'] }}</p>
     <hr>
-    <p>– The {{ config('app.name') }} Team</p>
+    <p>– {{ __('emails.auto_reply.signature', ['app' => config('app.name')]) }}</p>
 </body>
 </html>
