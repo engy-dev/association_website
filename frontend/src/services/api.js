@@ -26,10 +26,10 @@ export const authAPI = {
 
 // ─── Events ──────────────────────────────────────────────────────────────────
 export const eventsAPI = {
-  // filters: { category, date_from, date_to, search }
-  getAll:     (filters = {}) => api.get('/events',       { params: filters }),
-  getById:    (id)            => api.get(`/events/${id}`),
-  register:   (id, data)     => api.post(`/events/${id}/register`, data),
+  getAll:        (filters = {}) => api.get('/events',            { params: filters }),
+  getById:       (id)            => api.get(`/events/${id}`),
+  register:      (id, data)     => api.post(`/events/${id}/register`, data),
+  getCategories: ()              => api.get('/events/categories'),
 };
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────

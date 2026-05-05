@@ -19,7 +19,7 @@ export default function EventDetailPage() {
   }, [id]);
 
   if (loading) return <p>{t('hero.loading')}</p>;
-  if (!event)  return <p>{t('event.noEvent')}</p>;
+  if (!event)  return <p>{t('events.noEvent')}</p>;
 
   const handleReserve = () => {
     if (!user) {
@@ -37,11 +37,11 @@ export default function EventDetailPage() {
       {event.category && <span className="tag">{event.category}</span>}
 
       <div className="event-meta">
-        <p>📅 {new Date(event.start_date).toLocaleString()}</p>
-        {event.end_date && <p>   → {new Date(event.end_date).toLocaleString()}</p>}
+        <p>📅 {new Date(event.start_datetime).toLocaleString()}</p>
+        {event.end_datetime && <p>   → {new Date(event.end_date).toLocaleString()}</p>}
         <p>📍 {event.location}</p>
-        <p>💶 {event.price > 0 ? `€${event.price}` : t('event.free')}</p>
-        {event.capacity && <p>🪑 {event.spots_left} {t('event.remainingSpots')}</p>}
+        <p>💶 {event.cost > 0 ? `€${event.cost}` : t('events.free')}</p>
+        {event.capacity && <p>🪑 {event.spots_left} {t('events.remainingSpots')}</p>}
       </div>
 
       <div className="event-description">
@@ -50,14 +50,14 @@ export default function EventDetailPage() {
       </div>
 
       {event.is_recurring && (
-        <p className="recurring-notice">🔁 {t('event.recurring')}</p>
+        <p className="recurring-notice">🔁 {t('events.recurring')}</p>
       )}
 
       <div className="event-actions">
         <button onClick={handleReserve} className="btn-primary" disabled={event.spots_left === 0}>
-          {event.spots_left === 0 ? t('event.full') : t('event.notFull')}
+          {event.spots_left === 0 ? t('events.full') : t('events.notFull')}
         </button>
-        <Link to="/events">← {t('event.back')}</Link>
+        <Link to="/events">← {t('events.back')}</Link>
       </div>
     </div>
   );

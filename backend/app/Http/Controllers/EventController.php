@@ -14,28 +14,42 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Event::query()->where('is_published', true);
+        $lang  = $request->header('Accept-Language', 'fr');
+        $lang  = in_array($lang, ['en', 'fr', 'ar']) ? $lang : 'fr';
+
+        $titleCol    = "title_{$lang}";
+        $descCol     = "description_{$lang}";
+        $categoryCol = "category_{$lang}";
+
+        $query = Event::query()->select([
+            'id', 'organizer_id',
+            "{$titleCol}    as title",
+            "{$descCol}     as description",
+            "{$categoryCol} as category",
+            'start_datetime', 'end_datetime',
+            'location', 'cost', 'capacity', 'is_full', 'is_recurring',
+        ]);
 
         if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('title',       'ilike', '%' . $request->search . '%')
-                  ->orWhere('description','ilike', '%' . $request->search . '%');
+            $query->where(function ($q) use ($request, $titleCol, $descCol) {
+                $q->where($titleCol, 'ilike', '%' . $request->search . '%')
+                ->orWhere($descCol, 'ilike', '%' . $request->search . '%');
             });
         }
 
         if ($request->filled('category')) {
-            $query->where('category', $request->category);
+            $query->where($categoryCol, $request->category);
         }
 
         if ($request->filled('date_from')) {
-            $query->whereDate('start_date', '>=', $request->date_from);
+            $query->whereDate('start_datetime', '>=', $request->date_from);
         }
 
         if ($request->filled('date_to')) {
-            $query->whereDate('start_date', '<=', $request->date_to);
+            $query->whereDate('start_datetime', '<=', $request->date_to);
         }
 
-        $query->orderBy('start_date');
+        $query->orderBy('start_datetime');
 
         $limit = min((int) $request->get('limit', 20), 100);
 
@@ -45,13 +59,19 @@ class EventController extends Controller
     /**
      * GET /api/events/{event}
      */
-    public function show(Event $event)
+    public function show(Request $request, Event $event)
     {
-        // Append computed spots_left attribute
+        $lang = $request->header('Accept-Language', 'fr');
+        $lang = in_array($lang, ['en', 'fr', 'ar']) ? $lang : 'fr';
+
         $event->loadCount('registrations');
         $event->spots_left = $event->capacity
             ? max(0, $event->capacity - $event->registrations_count)
             : null;
+
+        $event->title       = $event->{"title_{$lang}"};
+        $event->description = $event->{"description_{$lang}"};
+        $event->category    = $event->{"category_{$lang}"};
 
         return response()->json($event);
     }
@@ -82,9 +102,31 @@ class EventController extends Controller
             'quantity'             => $validated['quantity'],
             'status'               => 'confirmed',
             'subscribe_recurring'  => $validated['subscribe_recurring'] ?? false,
-            'amount_paid'          => $event->price * $validated['quantity'],
+            'amount_paid'          => $event->cost * $validated['quantity'],
         ]);
 
         return response()->json($registration, 201);
+    }
+
+    /**
+     * GET /api/events/categories
+     * Returns distinct categories in the requested language.
+     */
+    public function categories(Request $request)
+    {
+        $lang = $request->header('Accept-Language', 'fr');
+        $lang = in_array($lang, ['en', 'fr', 'ar']) ? $lang : 'fr';
+
+        $col = "category_{$lang}";
+
+        $categories = Event::query()
+            ->whereNotNull($col)
+            ->where($col, '!=', '')
+            ->distinct()
+            ->orderBy($col)
+            ->pluck($col)
+            ->values();
+
+        return response()->json($categories);
     }
 }

@@ -3,13 +3,14 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { eventsAPI } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
 
-const CATEGORIES = ['All', 'Concert', 'Workshop', 'Exhibition', 'Community', 'Other'];
 
 export default function EventsPage() {
+  
   const [events,       setEvents]       = useState([]);
   const [loading,      setLoading]      = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { t } = useLanguage();
+  const [categories, setCategories] = useState([]);
+  const { t, lang } = useLanguage();
 
   // Filter state — initialise from URL query params
   const [filters, setFilters] = useState({
@@ -18,6 +19,15 @@ export default function EventsPage() {
     date_to:   searchParams.get('date_to')   || '',
     search:    searchParams.get('search')    || '',
   });
+
+  useEffect(() => {
+      eventsAPI.getCategories()
+          .then(r => setCategories(r.data));
+  }, [lang]);
+
+  useEffect(() => {
+      setFilters(prev => ({ ...prev, category: '' }));
+  }, [lang]);
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +40,7 @@ export default function EventsPage() {
 
     // Sync filters → URL
     setSearchParams(params);
-  }, [filters, t]);
+  }, [filters, lang]);
 
   const handleFilter = (key, value) =>
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -50,9 +60,12 @@ export default function EventsPage() {
 
         <select
           value={filters.category}
-          onChange={e => handleFilter('category', e.target.value === 'All' ? '' : e.target.value)}
+          onChange={e => handleFilter('category', e.target.value)}
         >
-          {CATEGORIES.map(c => <option key={c}>{c}</option>)}
+          <option value="">{t('events.seeAll')}</option>
+          {categories.map(c => (
+            <option key={c} value={c}>{c}</option>
+          ))}
         </select>
 
         <label>
@@ -93,9 +106,9 @@ export default function EventsPage() {
               <div className="card-body">
                 {event.category && <span className="tag">{event.category}</span>}
                 <h3>{event.title}</h3>
-                <p>📅 {new Date(event.start_date).toLocaleDateString()}</p>
+                <p>📅 {new Date(event.start_datetime).toLocaleDateString()}</p>
                 <p>📍 {event.location}</p>
-                <p>💶 {event.price > 0 ? `€${event.price}` : 'Free'}</p>
+                <p>💶 {event.cost > 0 ? `€${event.cost}` :  t('events.free')}</p>
                 <p>{event.excerpt}</p>
                 <Link to={`/events/${event.id}`} className="btn-primary">
                   {t('events.view')}
