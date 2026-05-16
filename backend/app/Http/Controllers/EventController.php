@@ -23,9 +23,9 @@ class EventController extends Controller
 
         $query = Event::query()->select([
             'id', 'organizer_id',
-            "{$titleCol}    as title",
-            "{$descCol}     as description",
-            "{$categoryCol} as category",
+            'title_en', 'title_fr', 'title_ar',
+            'description_en', 'description_fr', 'description_ar',
+            'category_en', 'category_fr', 'category_ar',
             'start_datetime', 'end_datetime',
             'location', 'cost', 'capacity', 'is_full', 'is_recurring',
         ]);
@@ -61,17 +61,9 @@ class EventController extends Controller
      */
     public function show(Request $request, Event $event)
     {
-        $lang = $request->header('Accept-Language', 'fr');
-        $lang = in_array($lang, ['en', 'fr', 'ar']) ? $lang : 'fr';
-
-        $event->loadCount('registrations');
         $event->spots_left = $event->capacity
             ? max(0, $event->capacity - $event->registrations_count)
             : null;
-
-        $event->title       = $event->{"title_{$lang}"};
-        $event->description = $event->{"description_{$lang}"};
-        $event->category    = $event->{"category_{$lang}"};
 
         return response()->json($event);
     }

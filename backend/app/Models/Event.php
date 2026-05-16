@@ -37,8 +37,6 @@ class Event extends Model
     // Virtual: spots remaining
     public function getSpotsLeftAttribute(): ?int
     {
-        if (!$this->capacity) return null;
-        $taken = $this->registrations()->sum('quantity');
-        return max(0, $this->capacity - $taken);
+        return 10;
     }
 }

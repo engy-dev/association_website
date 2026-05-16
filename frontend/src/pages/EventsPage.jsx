@@ -10,7 +10,7 @@ export default function EventsPage() {
   const [loading,      setLoading]      = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const [categories, setCategories] = useState([]);
-  const { t, lang } = useLanguage();
+  const { t, language } = useLanguage();
 
   // Filter state — initialise from URL query params
   const [filters, setFilters] = useState({
@@ -23,11 +23,11 @@ export default function EventsPage() {
   useEffect(() => {
       eventsAPI.getCategories()
           .then(r => setCategories(r.data));
-  }, [lang]);
+  }, [language]);
 
   useEffect(() => {
       setFilters(prev => ({ ...prev, category: '' }));
-  }, [lang]);
+  }, [language]);
 
   useEffect(() => {
     setLoading(true);
@@ -40,7 +40,7 @@ export default function EventsPage() {
 
     // Sync filters → URL
     setSearchParams(params);
-  }, [filters, lang]);
+  }, [filters]);
 
   const handleFilter = (key, value) =>
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -98,14 +98,17 @@ export default function EventsPage() {
         <p>{t('events.noEvents')}</p>
       ) : (
         <div className="card-grid">
-          {events.map(event => (
+          {events.map(event => {
+            const title    = event[`title_${language}`]    || event.title_fr;
+            const category = event[`category_${language}`] || event.category_fr;
+            return (
             <div key={event.id} className="card event-card">
               {event.image_url && (
-                <img src={event.image_url} alt={event.title} />
+                <img src={event.image_url} alt={title} />
               )}
               <div className="card-body">
-                {event.category && <span className="tag">{event.category}</span>}
-                <h3>{event.title}</h3>
+                {category && <span className="tag">{category}</span>}
+                <h3>{title}</h3>
                 <p>📅 {new Date(event.start_datetime).toLocaleDateString()}</p>
                 <p>📍 {event.location}</p>
                 <p>💶 {event.cost > 0 ? `€${event.cost}` :  t('events.free')}</p>
@@ -115,7 +118,8 @@ export default function EventsPage() {
                 </Link>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
