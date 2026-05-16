@@ -109,7 +109,7 @@ export default function EventsPage() {
               <div className="card-body">
                 {category && <span className="tag">{category}</span>}
                 <h3>{title}</h3>
-                <p>📅 {new Date(event.start_datetime).toLocaleDateString()}</p>
+                <p>📅 {new Date(event.start_datetime).toLocaleString(undefined, { timeZone: 'UTC' })}</p>
                 <p>📍 {event.location}</p>
                 <p>💶 {event.cost > 0 ? `€${event.cost}` :  t('events.free')}</p>
                 <p>{event.excerpt}</p>

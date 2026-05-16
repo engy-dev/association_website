@@ -6,12 +6,12 @@ import { useLanguage } from '../context/LanguageContext';
 export default function LandingPage() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [latestPosts,    setLatestPosts]    = useState([]);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     eventsAPI.getAll({ limit: 3 }).then(r => setUpcomingEvents(r.data.data ?? r.data));
     blogAPI.getAll({ limit: 3 })  .then(r => setLatestPosts(r.data.data ?? r.data));
-  }, [t]);
+  }, []);
 
   return (
     <div className="page landing">
@@ -37,14 +37,17 @@ export default function LandingPage() {
       <section className="section upcoming-events">
         <h2>{t('events.title')}</h2>
         <div className="card-grid">
-          {upcomingEvents.map(event => (
+          {upcomingEvents.map(event => {
+            const title = event[`title_${language}`] || event.title_fr;
+            return (
             <div key={event.id} className="card">
-              <h3>{event.title}</h3>
-              <p>{new Date(event.start_date).toLocaleDateString()}</p>
+              <h3>{title}</h3>
+              <p>📅 {new Date(event.start_datetime).toLocaleString(undefined, { timeZone: 'UTC' })}</p>
               <p>{event.location}</p>
               <Link to={`/events/${event.id}`}>{t('events.details')} →</Link>
             </div>
-          ))}
+            )
+          })}
         </div>
         <Link to="/events">{t('events.seeAll')}→</Link>
       </section>
