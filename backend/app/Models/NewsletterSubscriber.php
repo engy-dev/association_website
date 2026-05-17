@@ -9,5 +9,14 @@ class NewsletterSubscriber extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['email'];
+    protected $table = 'NEWSLETTER_SUBSCRIBERS';
+    protected $primaryKey = 'subscriber_id';
+    public $timestamps = false;
+
+    protected $fillable = [
+        'newsletters',
+        'email',
+        'subscribed_at',
+        'unsubscribed_at',
+    ];
 }
