@@ -72,7 +72,7 @@ export default function LandingPage() {
       <section className="section volunteer-cta">
         <h2>{t('volunteer.title')}</h2>
         <p>{t('volunteer.content')}</p>
-        <Link to="/signup?role=volunteer" className="btn-secondary">{t('volunteer.button')}</Link>
+        <Link to="/signup" className="btn-secondary">{t('volunteer.button')}</Link>
       </section>
 
     </div>

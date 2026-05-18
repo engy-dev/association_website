@@ -14,20 +14,17 @@ class AuthController extends Controller
     {
         $validated = $request->validate([
             'name'                  => 'required|string|max:255',
-            'email'                 => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:App\Models\User,email',
             'password'              => ['required', 'confirmed', Password::min(8)],
-            'role'                  => 'nullable|in:member,volunteer',
-            'newsletter'            => 'nullable|boolean',
+            'newsletter_subscriber'            => 'nullable|boolean',
         ]);
 
         $user = User::create([
-            'name'              => $validated['name'],
-            'email'             => $validated['email'],
-            'password'          => Hash::make($validated['password']),
-            'role'              => $validated['role'] ?? 'member',
-            'newsletter'        => $validated['newsletter'] ?? false,
-            'membership_status' => 'active',
-            'membership_expires_at' => now()->addYear(),
+            'prenom'                 => $validated['name'],
+            'email'                  => $validated['email'],
+            'password_hash'          => Hash::make($validated['password']),
+            'role'                   => true,
+            'newsletter_subscriber'  => $validated['newsletter'] ?? false,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

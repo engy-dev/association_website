@@ -50,7 +50,9 @@ export default function Navbar() {
       <div className="navbar-auth">
         {user ? (
           <>
-            <NavLink to="/account">{user.name}</NavLink>
+            <NavLink to="/volunteer">{t('volunteer.title')}</NavLink>
+            <NavLink to="/account">{user.prenom}</NavLink>
+            <NavLink to="/account" className="btn-primary">{t('nav.account')}</NavLink>
             <button onClick={handleLogout}>{t('signin.signout')}</button>
           </>
         ) : (
