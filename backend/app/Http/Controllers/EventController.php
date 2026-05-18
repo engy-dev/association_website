@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\EventRegistration;
+use App\Services\HelloAssoService;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -69,35 +69,48 @@ class EventController extends Controller
     }
 
     /**
-     * POST /api/events/{event}/register   [auth required]
+     * POST /api/events/{event}/checkout-intent   [auth required]
+     * Creates a HelloAsso checkout intent and returns the redirectUrl.
      */
-    public function register(Request $request, Event $event)
+    public function checkoutIntent(Request $request, Event $event, HelloAssoService $helloasso)
     {
         $validated = $request->validate([
-            'quantity'             => 'required|integer|min:1|max:10',
-            'subscribe_recurring'  => 'nullable|boolean',
+            'quantity' => 'required|integer|min:1|max:10',
         ]);
 
-        // Check availability
-        if ($event->capacity) {
-            $taken = EventRegistration::where('event_id', $event->id)->sum('quantity');
-            if (($taken + $validated['quantity']) > $event->capacity) {
-                return response()->json(['message' => 'Not enough spots available.'], 422);
-            }
+        if (!$event->helloasso_event_slug) {
+            return response()->json(['message' => 'Event not linked to HelloAsso.'], 422);
         }
 
-        // TODO: Process payment via Stripe before creating registration
+        $user       = $request->user();
+        $amountCents = (int) round($event->cost * 100) * $validated['quantity'];
 
-        $registration = EventRegistration::create([
-            'user_id'              => $request->user()->id,
-            'event_id'             => $event->id,
-            'quantity'             => $validated['quantity'],
-            'status'               => 'confirmed',
-            'subscribe_recurring'  => $validated['subscribe_recurring'] ?? false,
-            'amount_paid'          => $event->cost * $validated['quantity'],
+        $payload = [
+            'totalAmount'      => $amountCents,
+            'initialAmount'    => $amountCents,
+            'itemName'         => $event->title_fr . ($validated['quantity'] > 1 ? " x{$validated['quantity']}" : ''),
+            'backUrl'          => config('app.frontend_url') . "/events/{$event->id}",
+            'errorUrl'         => config('app.frontend_url') . "/events/{$event->id}/checkout-return?status=error",
+            'returnUrl'        => config('app.frontend_url') . "/events/{$event->id}/checkout-return?status=success",
+            'containsDonation' => false,
+            'payer' => [
+                'firstName' => $user->first_name ?? '',
+                'lastName'  => $user->last_name  ?? '',
+                'email'     => $user->email,
+            ],
+            'metadata' => [
+                'user_id'  => $user->id,
+                'event_id' => $event->id,
+                'quantity' => $validated['quantity'],
+            ],
+        ];
+
+        $result = $helloasso->createCheckoutIntent($payload);
+
+        return response()->json([
+            'redirectUrl'       => $result['redirectUrl'],
+            'checkoutIntentId'  => $result['id'],
         ]);
-
-        return response()->json($registration, 201);
     }
 
     /**

@@ -12,6 +12,7 @@ export default function EventDetailPage() {
   const [event, setEvent]   = useState(null);
   const [loading, setLoading] = useState(true);
   const { t, language } = useLanguage();
+  const [reserving, setReserving] = useState(false);
   // displayed content
   const title       = event ? (event[`title_${language}`]       || event.title_fr)       : '';
   const description = event ? (event[`description_${language}`] || event.description_fr) : '';
@@ -26,12 +27,24 @@ export default function EventDetailPage() {
   if (loading) return <p>{t('hero.loading')}</p>;
   if (!event)  return <p>{t('events.noEvent')}</p>;
 
-  const handleReserve = () => {
-    if (!user) {
-      navigate(`/signin?redirect=/events/${id}/checkout`);
-    } else {
-      navigate(`/events/${id}/checkout`);
-    }
+
+
+  const handleReserve = async () => {
+      if (!user) {
+          navigate(`/signin?redirect=/events/${id}`);
+          return;
+      }
+      setReserving(true);
+      try {
+          const res = await eventsAPI.createCheckoutIntent(id, { quantity: 1 });
+          // Redirect the browser to HelloAsso's hosted payment page
+          window.location.href = res.data.redirectUrl;
+      } catch (err) {
+          console.error('Checkout failed', err);
+          alert('Unable to initiate payment. Please try again.');
+      } finally {
+          setReserving(false);
+      }
   };
 
   return (
@@ -59,8 +72,14 @@ export default function EventDetailPage() {
       )}
 
       <div className="event-actions">
-        <button onClick={handleReserve} className="btn-primary" disabled={event.spots_left === 0}>
-          {event.spots_left === 0 ? t('events.full') : t('events.notFull')}
+        <button
+            onClick={handleReserve}
+            className="btn-primary"
+            disabled={event.spots_left === 0 || reserving}
+        >
+            {event.spots_left === 0
+                ? t('events.full')
+                : reserving ? '...' : t('events.notFull')}
         </button>
         <Link to="/events">← {t('events.back')}</Link>
       </div>

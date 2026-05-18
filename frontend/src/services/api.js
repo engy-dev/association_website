@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  baseURL: 'http://localhost:8000/api',
   withCredentials: true,           // required for Sanctum cookie auth
   headers: {
     'Accept': 'application/json',
@@ -30,6 +30,7 @@ export const eventsAPI = {
   getById:       (id)            => api.get(`/events/${id}`),
   register:      (id, data)     => api.post(`/events/${id}/register`, data),
   getCategories: ()              => api.get('/events/categories'),
+  createCheckoutIntent: (id, data) => api.post(`/events/${id}/checkout-intent`, data),
 };
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
