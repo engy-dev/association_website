@@ -16,6 +16,7 @@ class NewsletterSubscriber extends Model
     protected $fillable = [
         'newsletters',
         'email',
+        'language',
         'subscribed_at',
         'unsubscribed_at',
     ];

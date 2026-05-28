@@ -18,7 +18,7 @@ export default function Footer() {
   const handleNewsletter = async (e) => {
     e.preventDefault();
     try {
-      await newsletterAPI.subscribe(email);
+      await newsletterAPI.subscribe(email, language);
       setStatus('success');
       setEmail('');
     } catch {

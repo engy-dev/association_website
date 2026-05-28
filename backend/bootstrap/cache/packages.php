@@ -41,4 +41,11 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
+  'railsware/mailtrap-php' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Mailtrap\\Bridge\\Laravel\\MailtrapSdkProvider',
+    ),
+  ),
 );

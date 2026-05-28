@@ -76,7 +76,22 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .footer-col ul { list-style: none; }
 .footer-col li { margin: .3rem 0; }
 .footer-col a  { color: #aaa; }
-.footer-col input { padding: .4rem; border: 1px solid #555; background: #333; color: #fff; border-radius: 4px; margin-right: .3rem; }
+.footer-col input {
+  padding: .4rem;
+  border: 1px solid #555 !important;
+  background: #fff !important;
+  color: #000 !important;
+  border-radius: 4px;
+  margin-right: .3rem;
+}
+.footer-col input::placeholder {
+  color: #aaa !important;
+}
+.footer-col input:focus {
+  background: #fff !important;
+  color: #000 !important;
+  outline: none;
+}
 .footer-copy { text-align: center; color: #666; margin-top: 2rem; font-size: .85rem; }
 
 /* ─── Page wrapper ───────────────────────────────────────────────────────────── */

@@ -57,7 +57,7 @@ export const contactAPI = {
 
 // ─── Newsletter ───────────────────────────────────────────────────────────────
 export const newsletterAPI = {
-  subscribe: (email) => api.post('/newsletter', { email }),
+  subscribe: (email, language) => api.post('/newsletter/subscribe', { email, language }),
 };
 
 // ─── Volunteer ────────────────────────────────────────────────────────────────
