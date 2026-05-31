@@ -64,4 +64,5 @@ class HelloAssoService
 
         return $response->json(); // contains 'id' and 'redirectUrl'
     }
+
 }

@@ -36,6 +36,7 @@ Route::get('/blog/{post}', [BlogController::class, 'show']);
 Route::get('/events',            [EventController::class, 'index']);
 Route::get('/events/categories', [EventController::class, 'categories']); 
 Route::get('/events/{event}',    [EventController::class, 'show']);
+Route::get('/events/{event}/widget', [EventController::class, 'widget']);
 Route::post('/webhooks/helloasso', [HelloAssoWebhookController::class, 'handle']);
 
 // end events

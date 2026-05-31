@@ -14,11 +14,6 @@ class HelloAssoWebhookController extends Controller
         $eventType = $payload['eventType'] ?? null;
         $metadata  = $payload['metadata']  ?? [];
 
-        Log::info('HelloAsso webhook received', [
-            'eventType' => $eventType,
-            'metadata'  => $metadata,
-            'data'      => $payload['data'] ?? [],
-        ]);
 
         if ($eventType === 'Order') {
             $userId   = $metadata['user_id']  ?? null;
@@ -26,6 +21,8 @@ class HelloAssoWebhookController extends Controller
             $quantity = $metadata['quantity'] ?? 1;
 
             // ✅ Payment confirmed server-to-server.
+            // Here you can: send a confirmation email, update a registrations table,
+            // decrement a counter, etc. For now we just log it.
             Log::info("Confirmed registration: user {$userId} → event {$eventId} x{$quantity}");
         }
 

@@ -111,7 +111,14 @@ export default function EventsPage() {
                 <h3>{title}</h3>
                 <p>📅 {new Date(event.start_datetime).toLocaleString(undefined, { timeZone: 'UTC' })}</p>
                 <p>📍 {event.location}</p>
-                <p>💶 {event.cost > 0 ? `€${event.cost}` :  t('events.free')}</p>
+                <p>💶 {(() => {
+                  const min = parseFloat(event.min_cost);
+                  const max = parseFloat(event.max_cost);
+                  if (min === 0 && max === 0) return t('events.free');
+                  if (max === 0) return min === 0 ? t('events.free') : `€${event.min_cost}`;
+                  if (min === 0) return `${t('events.free')} – €${event.max_cost}`;
+                  return `€${event.min_cost} – €${event.max_cost}`;
+                })()}</p>
                 <p>{event.excerpt}</p>
                 <Link to={`/events/${event.id}`} className="btn-primary">
                   {t('events.view')}

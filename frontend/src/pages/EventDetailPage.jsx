@@ -12,7 +12,8 @@ export default function EventDetailPage() {
   const [event, setEvent]   = useState(null);
   const [loading, setLoading] = useState(true);
   const { t, language } = useLanguage();
-  const [reserving, setReserving] = useState(false);
+  const [widgetUrl, setWidgetUrl] = useState(null);
+  const [showWidget, setShowWidget] = useState(false);
   // displayed content
   const title       = event ? (event[`title_${language}`]       || event.title_fr)       : '';
   const description = event ? (event[`description_${language}`] || event.description_fr) : '';
@@ -20,32 +21,19 @@ export default function EventDetailPage() {
 
   useEffect(() => {
     eventsAPI.getById(id)
-      .then(r => setEvent(r.data))
-      .finally(() => setLoading(false));
+        .then(r => setEvent(r.data))
+        .finally(() => setLoading(false));
   }, [id, language]);
+
+  useEffect(() => {
+    eventsAPI.getWidget(id)
+        .then(r => setWidgetUrl(r.data.widgetUrl))
+        .catch(() => setWidgetUrl(null));
+  }, [id]);
 
   if (loading) return <p>{t('hero.loading')}</p>;
   if (!event)  return <p>{t('events.noEvent')}</p>;
 
-
-
-  const handleReserve = async () => {
-      if (!user) {
-          navigate(`/signin?redirect=/events/${id}`);
-          return;
-      }
-      setReserving(true);
-      try {
-          const res = await eventsAPI.createCheckoutIntent(id, { quantity: 1 });
-          // Redirect the browser to HelloAsso's hosted payment page
-          window.location.href = res.data.redirectUrl;
-      } catch (err) {
-          console.error('Checkout failed', err);
-          alert('Unable to initiate payment. Please try again.');
-      } finally {
-          setReserving(false);
-      }
-  };
 
   return (
     <div className="page event-detail">
@@ -58,7 +46,14 @@ export default function EventDetailPage() {
         <p>📅 {new Date(event.start_datetime).toLocaleString(undefined, { timeZone: 'UTC' })}</p>
         {event.end_datetime && <p>   → {new Date(event.end_datetime).toLocaleString(undefined, { timeZone: 'UTC' })}</p>}
         <p>📍 {event.location}</p>
-        <p>💶 {event.cost > 0 ? `€${event.cost}` : t('events.free')}</p>
+        <p>💶 {(() => {
+          const min = parseFloat(event.min_cost);
+          const max = parseFloat(event.max_cost);
+          if (min === 0 && max === 0) return t('events.free');
+          if (max === 0) return min === 0 ? t('events.free') : `€${event.min_cost}`;
+          if (min === 0) return `${t('events.free')} – €${event.max_cost}`;
+          return `€${event.min_cost} – €${event.max_cost}`;
+        })()}</p>
         {event.capacity && <p>🪑 {event.spots_left} {t('events.remainingSpots')}</p>}
       </div>
 
@@ -72,15 +67,43 @@ export default function EventDetailPage() {
       )}
 
       <div className="event-actions">
-        <button
-            onClick={handleReserve}
-            className="btn-primary"
-            disabled={event.spots_left === 0 || reserving}
-        >
-            {event.spots_left === 0
-                ? t('events.full')
-                : reserving ? '...' : t('events.notFull')}
-        </button>
+        {widgetUrl ? (
+            showWidget ? (
+              <iframe
+                id="haWidget"
+                allowtransparency="true"
+                scrolling="auto"
+                src={widgetUrl}
+                style={{ width: '100%', height: '750px', border: 'none' }}
+                onLoad={() => {
+                  const handler = (e) => {
+                    const dataHeight = e.data?.height;
+                    const el = document.getElementById('haWidget');
+                    if (el && dataHeight > parseFloat(el.style.height || 0)) {
+                      el.style.height = dataHeight + 'px';
+                    }
+                  };
+                  window.removeEventListener('message', window.__haWidgetHandler);
+                  window.__haWidgetHandler = handler;
+                  window.addEventListener('message', handler);
+                }}
+              />
+            ) : (
+                <button className="btn-primary" onClick={() => {
+                  if (!user) {
+                    navigate(`/signin?redirect=/events/${id}`);
+                    return;
+                  }
+                  setShowWidget(true);
+                }}>
+                {t('events.notFull')}
+                </button>
+            )
+        ) : (
+            <button className="btn-primary" disabled>
+              {t('events.full')}
+            </button>
+        )}
         <Link to="/events">← {t('events.back')}</Link>
       </div>
     </div>

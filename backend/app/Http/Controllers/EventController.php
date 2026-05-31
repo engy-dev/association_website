@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Services\HelloAssoService;
 use Illuminate\Http\Request;
+use Log;
 
 class EventController extends Controller
 {
@@ -27,7 +28,7 @@ class EventController extends Controller
             'description_en', 'description_fr', 'description_ar',
             'category_en', 'category_fr', 'category_ar',
             'start_datetime', 'end_datetime',
-            'location', 'cost', 'capacity', 'is_full', 'is_recurring',
+            'location', 'min_cost', 'max_cost', 'capacity', 'is_full', 'is_recurring',
         ]);
 
         if ($request->filled('search')) {
@@ -76,6 +77,9 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'quantity' => 'required|integer|min:1|max:10',
+            'tier_id'  => 'required|integer',
+            'tier_label' => 'required|string|max:250',
+            'amount_cents' => 'required|integer|min:0',
         ]);
 
         if (!$event->helloasso_event_slug) {
@@ -83,12 +87,12 @@ class EventController extends Controller
         }
 
         $user       = $request->user();
-        $amountCents = (int) round($event->cost * 100) * $validated['quantity'];
+        $amountCents = $validated['amount_cents'] * $validated['quantity'];
 
         $payload = [
             'totalAmount'      => $amountCents,
             'initialAmount'    => $amountCents,
-            'itemName'         => $event->title_fr . ($validated['quantity'] > 1 ? " x{$validated['quantity']}" : ''),
+            'itemName'         => $validated['tier_label'] . ($validated['quantity'] > 1 ? " x{$validated['quantity']}" : ''),
             'backUrl'          => config('app.frontend_url') . "/events/{$event->id}",
             'errorUrl'         => config('app.frontend_url') . "/events/{$event->id}/checkout-return?status=error",
             'returnUrl'        => config('app.frontend_url') . "/events/{$event->id}/checkout-return?status=success",
@@ -101,6 +105,7 @@ class EventController extends Controller
             'metadata' => [
                 'user_id'  => $user->id,
                 'event_id' => $event->id,
+                'tier_id'  => $validated['tier_id'],
                 'quantity' => $validated['quantity'],
             ],
         ];
@@ -111,6 +116,23 @@ class EventController extends Controller
             'redirectUrl'       => $result['redirectUrl'],
             'checkoutIntentId'  => $result['id'],
         ]);
+    }
+
+    /**
+     * GET /api/events/{event}/widget
+     * Returns the HelloAsso widget embed URL for this event.
+     */
+    public function widget(Request $request, Event $event)
+    {
+        if (!$event->helloasso_event_slug) {
+            return response()->json(['message' => 'Event not linked to HelloAsso.'], 422);
+        }
+
+        $orgSlug   = config('services.helloasso.org_slug');
+        $baseUrl   = config('services.helloasso.widget_base_url', 'https://www.helloasso-sandbox.com');
+        $widgetUrl = "{$baseUrl}/associations/{$orgSlug}/evenements/{$event->helloasso_event_slug}/widget";
+
+        return response()->json(['widgetUrl' => $widgetUrl]);
     }
 
     /**

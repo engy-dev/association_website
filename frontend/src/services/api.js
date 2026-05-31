@@ -31,6 +31,7 @@ export const eventsAPI = {
   register:      (id, data)     => api.post(`/events/${id}/register`, data),
   getCategories: ()              => api.get('/events/categories'),
   createCheckoutIntent: (id, data) => api.post(`/events/${id}/checkout-intent`, data),
+  getWidget: (id) => api.get(`/events/${id}/widget`),
 };
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
@@ -66,11 +67,5 @@ export const volunteerAPI = {
   apply: (data) => api.post('/volunteer', data),
 };
 
-// ─── Member ───────────────────────────────────────────────────────────────────
-export const memberAPI = {
-  getRegistrations: ()     => api.get('/user/registrations'),
-  updateProfile:    (data) => api.put('/user/profile', data),
-  renewMembership:  ()     => api.post('/user/membership/renew'),
-};
 
 export default api;
