@@ -3,13 +3,14 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { eventsAPI } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
 
-const CATEGORIES = ['All', 'Concert', 'Workshop', 'Exhibition', 'Community', 'Other'];
 
 export default function EventsPage() {
+  
   const [events,       setEvents]       = useState([]);
   const [loading,      setLoading]      = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { t } = useLanguage();
+  const [categories, setCategories] = useState([]);
+  const { t, language } = useLanguage();
 
   // Filter state — initialise from URL query params
   const [filters, setFilters] = useState({
@@ -18,6 +19,15 @@ export default function EventsPage() {
     date_to:   searchParams.get('date_to')   || '',
     search:    searchParams.get('search')    || '',
   });
+
+  useEffect(() => {
+      eventsAPI.getCategories()
+          .then(r => setCategories(r.data));
+  }, [language]);
+
+  useEffect(() => {
+      setFilters(prev => ({ ...prev, category: '' }));
+  }, [language]);
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +40,7 @@ export default function EventsPage() {
 
     // Sync filters → URL
     setSearchParams(params);
-  }, [filters, t]);
+  }, [filters]);
 
   const handleFilter = (key, value) =>
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -50,9 +60,12 @@ export default function EventsPage() {
 
         <select
           value={filters.category}
-          onChange={e => handleFilter('category', e.target.value === 'All' ? '' : e.target.value)}
+          onChange={e => handleFilter('category', e.target.value)}
         >
-          {CATEGORIES.map(c => <option key={c}>{c}</option>)}
+          <option value="">{t('events.seeAll')}</option>
+          {categories.map(c => (
+            <option key={c} value={c}>{c}</option>
+          ))}
         </select>
 
         <label>
@@ -85,24 +98,35 @@ export default function EventsPage() {
         <p>{t('events.noEvents')}</p>
       ) : (
         <div className="card-grid">
-          {events.map(event => (
+          {events.map(event => {
+            const title    = event[`title_${language}`]    || event.title_fr;
+            const category = event[`category_${language}`] || event.category_fr;
+            return (
             <div key={event.id} className="card event-card">
               {event.image_url && (
-                <img src={event.image_url} alt={event.title} />
+                <img src={event.image_url} alt={title} />
               )}
               <div className="card-body">
-                {event.category && <span className="tag">{event.category}</span>}
-                <h3>{event.title}</h3>
-                <p>📅 {new Date(event.start_date).toLocaleDateString()}</p>
+                {category && <span className="tag">{category}</span>}
+                <h3>{title}</h3>
+                <p>📅 {new Date(event.start_datetime).toLocaleString(undefined, { timeZone: 'UTC' })}</p>
                 <p>📍 {event.location}</p>
-                <p>💶 {event.price > 0 ? `€${event.price}` : 'Free'}</p>
+                <p>💶 {(() => {
+                  const min = parseFloat(event.min_cost);
+                  const max = parseFloat(event.max_cost);
+                  if (min === 0 && max === 0) return t('events.free');
+                  if (max === 0) return min === 0 ? t('events.free') : `€${event.min_cost}`;
+                  if (min === 0) return `${t('events.free')} – €${event.max_cost}`;
+                  return `€${event.min_cost} – €${event.max_cost}`;
+                })()}</p>
                 <p>{event.excerpt}</p>
                 <Link to={`/events/${event.id}`} className="btn-primary">
                   {t('events.view')}
                 </Link>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

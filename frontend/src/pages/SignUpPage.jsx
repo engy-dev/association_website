@@ -14,7 +14,7 @@ export default function SignUpPage() {
     email:                '',
     password:             '',
     password_confirmation:'',
-    role:                 searchParams.get('role') || 'member',  // 'member' | 'volunteer'
+    role:                 'member',
     newsletter:           false,
   });
   const [error,     setError]     = useState(null);
@@ -63,14 +63,6 @@ export default function SignUpPage() {
         <label>
           {t('signup.confirmPassword')}
           <input name="password_confirmation" type="password" value={form.password_confirmation} onChange={handleChange} required />
-        </label>
-
-        <label>
-          {t('signup.memberCategoryDropbox')}
-          <select name="role" value={form.role} onChange={handleChange}>
-            <option value="member">{t('signup.memberCategory1')}</option>
-            <option value="volunteer">{t('signup.memberCategory2')}</option>
-          </select>
         </label>
 
         <label className="checkbox-label">

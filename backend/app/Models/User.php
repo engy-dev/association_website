@@ -10,16 +10,19 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected $table = 'USERS';
 
     protected $fillable = [
-        'name',
+        'prenom',
+        'nom',
         'email',
-        'password',
-        'role',                   // 'member' | 'volunteer' | 'admin'
-        'newsletter',
-        'membership_status',      // 'active' | 'expired' | 'none'
-        'membership_expires_at',
+        'password_hash',
+        'phone',
+        'address',
+        'role',
+        'newsletter_subscriber',
     ];
+
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -31,6 +34,10 @@ class User extends Authenticatable
     ];
 
     // ── Relationships ─────────────────────────────────────────────────────────
+    public function getAuthPassword(): string
+    {
+        return $this->password_hash;
+    }
 
     public function eventRegistrations()
     {

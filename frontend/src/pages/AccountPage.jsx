@@ -14,7 +14,6 @@ export default function AccountPage() {
   const [saved,   setSaved]   = useState(false);
 
   useEffect(() => {
-    memberAPI.getRegistrations().then(r => setRegistrations(r.data));
     donationsAPI.getReceipts()  .then(r => setDonations(r.data));
   }, []);
 
@@ -43,31 +42,6 @@ export default function AccountPage() {
         ))}
       </nav>
 
-      {/* ── Event Registrations ─────────────────────────────── */}
-      {tab === 'registrations' && (
-        <section>
-          <h2>My Event Registrations</h2>
-          {registrations.length === 0 ? (
-            <p>No registrations yet.</p>
-          ) : (
-            <table>
-              <thead>
-                <tr><th>Event</th><th>Date</th><th>Tickets</th><th>Status</th></tr>
-              </thead>
-              <tbody>
-                {registrations.map(r => (
-                  <tr key={r.id}>
-                    <td>{r.event?.title}</td>
-                    <td>{new Date(r.event?.start_date).toLocaleDateString()}</td>
-                    <td>{r.quantity}</td>
-                    <td>{r.status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </section>
-      )}
 
       {/* ── Donations / Receipts ────────────────────────────── */}
       {tab === 'donations' && (

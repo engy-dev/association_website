@@ -1,6 +1,14 @@
 
 {
-  "nav": { "events": "Événements", "blog": "Blog", "donate": "Faire un don", "contact": "Contact", "home": "Accueil" , "productions": "Productions"},
+  "nav": {
+    "events": "Événements",
+    "blog": "Blog",
+    "donate": "Faire un don",
+    "contact": "Contact",
+    "home": "Accueil" ,
+    "productions": "Productions",
+    "account":"Mon compte"
+  },
   "hero": {
     "title": "Bienvenue à Wassla",
     "subtitle": "Nous aidons les personnes LGBT du monde arabe vivant en France",

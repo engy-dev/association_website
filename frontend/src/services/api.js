@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  baseURL: 'http://localhost:8000/api',
   withCredentials: true,           // required for Sanctum cookie auth
   headers: {
     'Accept': 'application/json',
@@ -26,10 +26,12 @@ export const authAPI = {
 
 // ─── Events ──────────────────────────────────────────────────────────────────
 export const eventsAPI = {
-  // filters: { category, date_from, date_to, search }
-  getAll:     (filters = {}) => api.get('/events',       { params: filters }),
-  getById:    (id)            => api.get(`/events/${id}`),
-  register:   (id, data)     => api.post(`/events/${id}/register`, data),
+  getAll:        (filters = {}) => api.get('/events',            { params: filters }),
+  getById:       (id)            => api.get(`/events/${id}`),
+  register:      (id, data)     => api.post(`/events/${id}/register`, data),
+  getCategories: ()              => api.get('/events/categories'),
+  createCheckoutIntent: (id, data) => api.post(`/events/${id}/checkout-intent`, data),
+  getWidget: (id) => api.get(`/events/${id}/widget`),
 };
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
@@ -65,11 +67,5 @@ export const volunteerAPI = {
   apply: (data) => api.post('/volunteer', data),
 };
 
-// ─── Member ───────────────────────────────────────────────────────────────────
-export const memberAPI = {
-  getRegistrations: ()     => api.get('/user/registrations'),
-  updateProfile:    (data) => api.put('/user/profile', data),
-  renewMembership:  ()     => api.post('/user/membership/renew'),
-};
 
 export default api;
