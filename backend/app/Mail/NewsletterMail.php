@@ -14,7 +14,8 @@ class NewsletterMail extends Mailable
 
     public function __construct(
         public string $title,
-        public string $emailContent
+        public string $emailContent,
+        public string $unsubscribeUrl
     ) {}
 
     public function envelope(): Envelope

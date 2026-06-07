@@ -16,6 +16,9 @@ import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
 import DonationPage from './pages/DonationPage';
 import AccountPage from './pages/AccountPage';
+import Unsubscribed from './pages/NewsLetterUnsub';
+
+
 
 // Protects routes that require authentication
 function PrivateRoute({ children }) {
@@ -57,6 +60,7 @@ export default function App() {
             <Route path="/account"                 element={
               <PrivateRoute><AccountPage /></PrivateRoute>
             } />
+            <Route path="/unsubscribed" element={<Unsubscribed />} />
             <Route path="*"                        element={<Navigate to="/" replace />} />
           </Routes>
         </Layout>

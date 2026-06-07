@@ -7,6 +7,7 @@ use App\Models\NewsletterSubscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\MailContent;
+use Illuminate\Support\Facades\URL;
 
 class WebhookController extends Controller
 {
@@ -26,13 +27,12 @@ class WebhookController extends Controller
         'language' => $language,
     ]);
 
-        $subscribers = NewsletterSubscriber::whereNull('unsubscribed_at')
-            ->where('language', $language)
-            ->get();
+        $subscribers = NewsletterSubscriber::where('language', $language)->get();
 
         foreach ($subscribers as $subscriber) {
+            $unsubscribeUrl = URL::signedRoute('newsletter.unsubscribe', ['email' => $subscriber->email]);
             Mail::to($subscriber->email)->send(
-                new NewsletterMail($title, $content)
+                new NewsletterMail($title, $content, $unsubscribeUrl)
             );
         }
 

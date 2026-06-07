@@ -26,3 +26,4 @@ Route::get('/blog/{post}', [BlogController::class, 'show']);
 // newsletter
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
 Route::post('/webhook/newsletter', [WebhookController::class, 'handleMailContent']);
+Route::get('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');

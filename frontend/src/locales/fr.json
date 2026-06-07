@@ -92,6 +92,14 @@
     "noProductions": "Aucune production pour le moment — revenez bientôt !",
     "watch":"Regarder"
   },
+  "unsubscribe": {
+  "successTitle": "Nous sommes tristes de vous voir partir 💙",
+  "successMessage": "Vous avez été désabonné(e) de notre newsletter avec succès.",
+  "invalidTitle": "Lien invalide",
+  "invalidMessage": "Ce lien de désabonnement est invalide ou a expiré.",
+  "notFoundTitle": "Introuvable",
+  "notFoundMessage": "Nous n'avons pas trouvé votre abonnement."
+},
   "footer":{
     "quickLinksTitle":"Liens rapides",
     "aboutUsTitle": "À propos de Wassla",
