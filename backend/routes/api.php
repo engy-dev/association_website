@@ -40,3 +40,11 @@ Route::get('/events/{event}/widget', [EventController::class, 'widget']);
 Route::post('/webhooks/helloasso', [HelloAssoWebhookController::class, 'handle']);
 
 // end events
+
+
+// Donations
+
+Route::post('/donations', [DonationController::class, 'store']);
+
+
+// end donations

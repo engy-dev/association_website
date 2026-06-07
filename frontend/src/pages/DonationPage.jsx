@@ -1,44 +1,67 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { donationsAPI } from '../services/api';
 
-const PRESET_AMOUNTS = [10, 25, 50, 100];
+const ONCE_AMOUNTS    = [5, 10, 25, 50, 100];
+const MONTHLY_AMOUNTS = [5, 10, 20, 50];
 
 export default function DonationPage() {
-  const [amount,      setAmount]      = useState('');
-  const [custom,      setCustom]      = useState(false);
-  const [frequency,   setFrequency]   = useState('once');   // 'once' | 'monthly'
-  const [name,        setName]        = useState('');
-  const [email,       setEmail]       = useState('');
-  const [anonymous,   setAnonymous]   = useState(false);
-  const [submitting,  setSubmitting]  = useState(false);
-  const [success,     setSuccess]     = useState(false);
-  const [error,       setError]       = useState(null);
+  const [searchParams]              = useSearchParams();
+  const [frequency, setFrequency]   = useState('once');
+  const [amount, setAmount]         = useState(null);
+  const [custom, setCustom]         = useState(false);
+  const [customValue, setCustomValue] = useState('');
+  const [name, setName]             = useState('');
+  const [email, setEmail]           = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError]           = useState(null);
+  const [showMembership, setShowMembership] = useState(false);
 
-  const handlePreset = (val) => {
-    setAmount(val);
+  const status = searchParams.get('status');
+
+  // Reset selected amount when switching frequency
+  useEffect(() => {
+    setAmount(null);
     setCustom(false);
-  };
+    setCustomValue('');
+  }, [frequency]);
+
+  const presets = frequency === 'monthly' ? MONTHLY_AMOUNTS : ONCE_AMOUNTS;
+  const finalAmount = custom ? parseInt(customValue, 10) : amount;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!finalAmount || finalAmount < 1) return;
     setSubmitting(true);
     setError(null);
     try {
-      await donationsAPI.create({ amount, frequency, name, email, anonymous });
-      setSuccess(true);
+      const res = await donationsAPI.create({
+        amount: finalAmount,
+        frequency,
+        name,
+        email,
+      });
+      window.location.href = res.data.redirectUrl;
     } catch (err) {
-      setError(err.response?.data?.message || 'Donation failed. Please try again.');
-    } finally {
+      setError(err.response?.data?.message || 'Unable to process donation. Please try again.');
       setSubmitting(false);
     }
   };
 
-  if (success) {
+  if (status === 'success') {
     return (
       <div className="page donation success">
         <h1>Thank you for your generosity! 💙</h1>
-        <p>Your donation of €{amount} has been received.</p>
-        <p>A receipt will be sent to {email}.</p>
+        <p>Your donation has been received. A confirmation will be sent to your email.</p>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="page donation error">
+        <h1>Something went wrong</h1>
+        <p>Your donation could not be processed. Please <a href="/donate">try again</a>.</p>
       </div>
     );
   }
@@ -52,33 +75,33 @@ export default function DonationPage() {
 
       <form onSubmit={handleSubmit} className="donation-form">
 
-        {/* ── Frequency ───────────────────────────────────────── */}
+        {/* ── Frequency ── */}
         <fieldset>
           <legend>Frequency</legend>
-          {['once', 'monthly'].map(f => (
-            <label key={f} className="radio-label">
+          {[['once', 'One-time'], ['monthly', 'Monthly (12 months)']].map(([val, label]) => (
+            <label key={val} className="radio-label">
               <input
                 type="radio"
                 name="frequency"
-                value={f}
-                checked={frequency === f}
-                onChange={() => setFrequency(f)}
+                value={val}
+                checked={frequency === val}
+                onChange={() => setFrequency(val)}
               />
-              {f === 'once' ? 'One-time' : 'Monthly'}
+              {label}
             </label>
           ))}
         </fieldset>
 
-        {/* ── Amount ──────────────────────────────────────────── */}
+        {/* ── Amount ── */}
         <fieldset>
-          <legend>Amount (€)</legend>
+          <legend>Amount (€){frequency === 'monthly' ? ' / month' : ''}</legend>
           <div className="preset-buttons">
-            {PRESET_AMOUNTS.map(v => (
+            {presets.map(v => (
               <button
                 key={v}
                 type="button"
                 className={amount === v && !custom ? 'btn-primary' : 'btn-outline'}
-                onClick={() => handlePreset(v)}
+                onClick={() => { setAmount(v); setCustom(false); setCustomValue(''); }}
               >
                 €{v}
               </button>
@@ -86,7 +109,7 @@ export default function DonationPage() {
             <button
               type="button"
               className={custom ? 'btn-primary' : 'btn-outline'}
-              onClick={() => { setCustom(true); setAmount(''); }}
+              onClick={() => { setCustom(true); setAmount(null); }}
             >
               Custom
             </button>
@@ -95,45 +118,88 @@ export default function DonationPage() {
             <input
               type="number"
               min={1}
-              placeholder="Enter amount"
-              value={amount}
-              onChange={e => setAmount(e.target.value)}
+              placeholder="Enter amount in €"
+              value={customValue}
+              onChange={e => setCustomValue(e.target.value)}
               required
+              autoFocus
             />
+          )}
+          {frequency === 'monthly' && finalAmount && (
+            <p className="monthly-total">
+              Total over 12 months: €{finalAmount * 12}
+            </p>
           )}
         </fieldset>
 
-        {/* ── Donor info ──────────────────────────────────────── */}
-        <label className="checkbox-label">
-          <input type="checkbox" checked={anonymous} onChange={e => setAnonymous(e.target.checked)} />
-          Donate anonymously
-        </label>
-
-        {!anonymous && (
-          <>
+        {/* ── Donor info ── */}
+        <fieldset>
+          <legend>Your details</legend>
             <label>
               Name
-              <input type="text" value={name} onChange={e => setName(e.target.value)} />
+              <input
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="Jean Dupont"
+              />
             </label>
             <label>
-              Email (for receipt)
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+              Email (for confirmation)
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="jean@example.com"
+              />
             </label>
-          </>
-        )}
-
-        {/* ── Payment stub ────────────────────────────────────── */}
-        <div className="payment-block">
-          <h3>Payment</h3>
-          <p className="stub-notice">💳 Stripe integration placeholder — wire up Stripe here.</p>
-        </div>
+        </fieldset>
 
         {error && <p className="error">{error}</p>}
 
-        <button type="submit" className="btn-primary" disabled={submitting || !amount}>
-          {submitting ? 'Processing…' : `Donate €${amount || '…'}`}
+        <button
+          type="submit"
+          className="btn-primary"
+          disabled={submitting || !finalAmount || finalAmount < 1}
+        >
+          {submitting
+            ? 'Redirecting…'
+            : finalAmount
+              ? frequency === 'monthly'
+                ? `Donate €${finalAmount}/month → HelloAsso`
+                : `Donate €${finalAmount} → HelloAsso`
+              : 'Select an amount'}
         </button>
       </form>
+
+      <div className="membership-section">
+        <button
+          type="button"
+          className="btn-outline"
+          onClick={() => setShowMembership(prev => !prev)}
+        >
+          {showMembership ? 'Hide membership form' : 'Become a member'}
+        </button>
+
+        {showMembership && (
+          <iframe
+            id="haWidget"
+            allowtransparency="true"
+            scrolling="auto"
+            src="https://www.helloasso-sandbox.com/associations/wassla/adhesions/adhesion/widget"
+            style={{ width: '100%', height: '750px', border: 'none' }}
+            onLoad={() => {
+              window.addEventListener('message', function (e) {
+                const dataHeight = e.data.height;
+                const haWidgetElement = document.getElementById('haWidget');
+                if (dataHeight > parseFloat(haWidgetElement.height || 0)) {
+                  haWidgetElement.height = dataHeight + 'px';
+                }
+              });
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }
