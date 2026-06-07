@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { memberAPI, donationsAPI } from '../services/api';
+import { donationsAPI } from '../services/api';
 
 export default function AccountPage() {
   const { user, logout } = useAuth();
@@ -17,12 +17,12 @@ export default function AccountPage() {
     donationsAPI.getReceipts()  .then(r => setDonations(r.data));
   }, []);
 
-  const handleProfileSave = async (e) => {
+/*   const handleProfileSave = async (e) => {
     e.preventDefault();
     await memberAPI.updateProfile(profile);
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
-  };
+  }; */
 
   return (
     <div className="page account">
@@ -111,7 +111,7 @@ export default function AccountPage() {
           </strong></p>
           <button
             className="btn-primary"
-            onClick={() => memberAPI.renewMembership()}
+            //onClick={() => memberAPI.renewMembership()}
           >
             Renew Membership
           </button>

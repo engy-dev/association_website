@@ -40,6 +40,12 @@ export const blogAPI = {
   getById: (id)          => api.get(`/blog/${id}`),
 };
 
+// ─── Volunteers ───────────────────────────────────────────────────────────────
+export const volunteerAPI = {
+  getAll:  (params = {}) => api.get('/volunteers',           { params }),
+  apply:   (id, data)    => api.post(`/volunteers/${id}/apply`, data),
+};
+
 // ─── Productions ─────────────────────────────────────────────────────────────
 export const productionsAPI = {
   getAll:  (params = {}) => api.get('/productions', { params }),

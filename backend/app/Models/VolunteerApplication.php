@@ -1,13 +1,19 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class VolunteerApplication extends Model
 {
-    use HasFactory;
+    protected $table      = 'volunteer_applications';
+    public    $timestamps = false;
 
-    protected $fillable = ['name', 'email', 'phone', 'availability', 'motivation'];
+    protected $fillable = [
+        'job_id', 'applicant_name', 'applicant_email', 'answers',
+    ];
+
+    protected $casts = [
+        'answers'      => 'array',
+        'submitted_at' => 'datetime',
+    ];
 }

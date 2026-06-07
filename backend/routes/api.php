@@ -6,6 +6,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\HelloAssoWebhookController;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -30,6 +31,10 @@ Route::get('/blog/{post}', [BlogController::class, 'show']);
 
 // end blog
 
+// volunteer
+Route::get('/volunteers',              [VolunteerController::class, 'index']);
+Route::post('/volunteers/{job}/apply', [VolunteerController::class, 'apply']);
+// end volunteer
 
 // events
 
